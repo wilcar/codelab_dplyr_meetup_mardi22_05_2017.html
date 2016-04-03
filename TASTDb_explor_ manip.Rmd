@@ -74,24 +74,25 @@ str(voyages)
 ### Les facteurs 
 
 Un  *facteur (factor)* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif. 
-Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités*. Dans **r**, les  *levels* correspondent aux modalités d'un caractère.
+Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités*. Dans **R**, les  *levels* correspondent aux modalités d'un caractère.
 L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels() ou unique() {base}*. 
 
 ````{r eval=FALSE}
-
-levels (voyages$ptdepimp) # ports de départ des expéditions de traite
-unique (voyages$ptdepimp) # ports de départ des expéditions de traite
+ports de départ des expéditions de traite 
+levels (voyages$ptdepimp) #  classement des modalités par ordre alphabétique
+unique (voyages$ptdepimp) # absence de classement
+sort (unique (voyages$ptdepimp)) # classement des modalités par ordre alphabétique (combinaison avec la fonction sort)
 
 ````
 
 ### Les vecteurs numériques 
 
-Les *Integer* ou *numeric*  sont des objets utilisés pour stocker des valeurs d'une variable quantitative. 
+Les vecteurs numériques *Integer* ou *numeric*  sont des objets utilisés pour stocker les valeurs d'une variable quantitative. 
 
 ```{r eval = FALSE}
 
-# Exemple: les dix premières valeurs  de la variable yearam
-head (voyages$slaximp) 
+# Les premières valeurs  de la variable yearam
+head(sort(unique(voyages$yearam)))
 
 ```
 
