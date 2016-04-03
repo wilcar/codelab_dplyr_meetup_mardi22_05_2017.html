@@ -148,9 +148,19 @@ Pour poursuivre,il s'avère utile de pouvoir construire un tableau statistique d
 # fonction colSums
 
 colSums(is.na(voyages)) 
+````
 
+   voyageid    shipname    natinimp    placcons      yrcons     placreg       yrreg  
+          0        1594        1529       26058       28757       27718       30431      
+          
+
+
+```{r}
 missing<-colSums(is.na(voyages))
-missing
+```
+
+
+
 
 # fonction sum
 
