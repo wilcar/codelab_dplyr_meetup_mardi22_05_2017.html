@@ -14,24 +14,24 @@ output:
 
 Références:
 
-http://blog.datacamp.com/15-easy-solutions-data-frame-problems-r/
-https://www.datacamp.com/courses/dplyr-data-manipulation-r-tutorial
+http://blog.datacamp.com/15-easy-solutions-data-frame-problems-r/  
+https://www.datacamp.com/courses/dplyr-data-manipulation-r-tutorial  
 http://personal.colby.edu/personal/m/mgimond/RIntro/04_Manipulating_data_tables.html#data-table-description
-NA
-http://www.r-bloggers.com/imputing-missing-data-with-r-mice-package/
+NA  
+http://www.r-bloggers.com/imputing-missing-data-with-r-mice-package/  
 
-https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html
-https://stat545-ubc.github.io/block010_dplyr-end-single-table.html
+https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html  
+https://stat545-ubc.github.io/block010_dplyr-end-single-table.html  
 
 
 
-Un tableau de données ou *data.frame* constitue une structure de données fondamentale de *R*. Il est composé d'une collection d'objets de différents types (numeric, factor, character.) de longueur similaires accessibles par le indice de position (R: A Language and Environment for Statistical Computing - Reference index, p 159).
+Un tableau de données ou *data.frame* constitue une structure de données fondamentale de **R**. Il se compose d'une collection d'objets de différents types (*numeric, factor, character*) de longueur similaires accessibles par leur indice de position (R: A Language and Environment for Statistical Computing - Reference index, p 159).
 
 # Composition du tableau de données 
 
 ## Dimensions
 
-Un tableau de données est un tableau à deux dimensions. La fonction *dim(){base}*  permet d'en connaître le nombre de lignes et de colonnes (Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988) The New S Language. Wadsworth & Brooks/Cole.).
+Un tableau de données est un tableau à deux dimensions. La fonction *dim(){base}*  permet d'en connaître le nombre de lignes et de colonnes (Becker, Chambers, Wilks, 1988).
 
 ```{r eval = FALSE}
 
@@ -39,12 +39,13 @@ dim (voyages)
 
 ```
 
-## Désignation et indice de position des colonnes (vecteurs, variables)
+## Désignation et indice de position des colonnes
 
 ### La fonction colnames(){base}
-La fonction *colnames* est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* qui donne sa position au sein du tableau. R affiche  entre crochet dans la marge de gauche de la console  l'indice du premier élément de chaque  ligne.  
+La fonction *colnames* est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* de position au sein du tableau. l'indice du premier élément de chaque ligne est signalé dans la marge gauche de la console.
+
 ### La fonction wich(){base}
-La fonction *wich* est une fonction primitive de R qui permet d'identifier  l'indice de position d'un vecteur (d'une colonne) en fonction de son nom (Desgraupes, 2013, p10).
+La fonction *wich* est une fonction primitive de **R** qui permet d'identifier l'indice de position d'un vecteur (d'une colonne) en fonction de son nom (Desgraupes, 2013, p10).
 
 ```{r eval = FALSE}
 
@@ -65,9 +66,9 @@ str(voyages)
 ```
 ### Les facteurs (factors)
 
-Un *factor* constitue un objet particulier de R employé" pour stocker les modalités d'un caractères qualitatif. 
-Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités*. Les niveaux du facteur appelés *levels* correspondent à l'ensemble des modalités du caractère.
-L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels* ou *unique* (R base). 
+Un *factor* constitue un objet particulier de R employé pour stocker les modalités d'un caractère qualitatif. 
+Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités*. Dans **r**, les  *levels* correspondent aux modalités d'un caractère.
+L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels() ou unique() {base}*. 
 
 ````{r eval=FALSE}
 
@@ -78,9 +79,7 @@ unique (voyages$ptdepimp) # ports de départ des expéditions de traite
 
 ### Les vecteurs numériques (Integer ou numeric)
 
-Objets particuliers de R pour représenter les variables numeriques. 
-
-Un caractères est dit quantitatif si ses modalités sont mesurables. Le caractère quantitatif prend alors le nom de *variable statistique* et ses différentes modalités sont les *valeurs* possibles de la variable (py 1996).
+Objets particuliers de R pour représenter les variables numeriques. Un caractères est dit quantitatif si ses modalités sont mesurables. Le caractère quantitatif prend alors le nom de *variable statistique* et ses différentes modalités sont les *valeurs* possibles de la variable (Py, 1996).
 
 ```{r eval = FALSE}
 # Exemple: les dix premières valeurs  de la variable yearam
