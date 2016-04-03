@@ -22,11 +22,11 @@ https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html
 https://stat545-ubc.github.io/block010_dplyr-end-single-table.html  
 
 
-# Composition du tableau de données 
+# Composition du tableau de données *voyages*
 
 Un tableau de données ou *data.frame* constitue une structure de données fondamentale de **R**. Il se compose d'une collection d'objets de différents types (*numeric, factor, character*) de longueurs similaires accessibles par leur indice de position (R: A Language and Environment for Statistical Computing - Reference index, p 159).
 
-## Dimensions
+## Dimensions du tableau
 
 Un tableau de données est un tableau à deux dimensions. La fonction *dim(){base}*  permet d'en connaître le nombre de lignes et de colonnes (Becker, Chambers, Wilks, 1988).
 
@@ -38,11 +38,8 @@ dim (voyages)
 
 ## Désignation et indice de position des colonnes
 
-### La fonction colnames(){base}
-La fonction *colnames* est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* de position au sein du tableau. l'indice du premier élément de chaque ligne est signalé dans la marge gauche de la console.
-
-### La fonction wich(){base}
-La fonction *wich* est une fonction primitive de **R** qui permet d'identifier l'indice de position d'un vecteur (d'une colonne) en fonction de son nom (Desgraupes, 2013, p10).
+* La fonction *colnames(){base}* est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* de position au sein du tableau. l'indice du premier élément de chaque ligne est signalé dans la marge gauche de la console.   
+* La fonction *wich(){base}* est une fonction primitive de **R** qui permet d'identifier l'indice de position d'un vecteur (d'une colonne) en fonction de son nom (Desgraupes, 2013, p10).
 
 ```{r eval = FALSE}
 
@@ -61,9 +58,9 @@ which(colnames(voyages)=="slaximp")
 str(voyages)
 
 ```
-### Les facteurs (factors)
+### Les facteurs 
 
-Un *factor* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif. 
+Un  *facteur (factor)* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif. 
 Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités*. Dans **r**, les  *levels* correspondent aux modalités d'un caractère.
 L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels() ou unique() {base}*. 
 
@@ -76,7 +73,7 @@ unique (voyages$ptdepimp) # ports de départ des expéditions de traite
 
 ### Les vecteurs numériques 
 
-Les *Integer* ou *numeric*  sont des objets particuliers de **R** pour stocker des variables numeriques. Un caractère est dit quantitatif si ses modalités sont mesurables. Le caractère quantitatif prend alors le nom de *variable statistique* et ses différentes modalités sont les *valeurs* possibles de la variable (Py, 1996).
+Les *Integer* ou *numeric*  sont des objets utilisés pour stocker des valeurs d'une variable quantitative. 
 
 ```{r eval = FALSE}
 
@@ -98,6 +95,9 @@ contenant des valeurs manquantes.
 
 #### Identification des valeurs manquantes
 
+Références: http://www.statmethods.net/input/missingdata.html
+
+
 La fonction *summary* permet entre autre d'indiquer les effectifs des valeurs manquantes pour chaque variable du tableau de données.
 
 ````{r eval=FALSE}
@@ -106,7 +106,7 @@ summary (voyages)
 
 ````
 
-Pour poursuivre,il s'avère utile de pouvoir construire un tableau statistique des effectifs et fréquences des valeurs manquantes *variable par variable*.
+Pour poursuivre,il s'avère utile de pouvoir construire un tableau statistique des effectifs et  des fréquences des valeurs manquantes *variable par variable*.
 
 ```{r eval = FALSE}
 
@@ -146,7 +146,7 @@ missing_freq
 
 
 
-# Visualisation des donn?es
+# Visualisation des données
 
 ## visualisation du tableau de donn?es dans la console
 
