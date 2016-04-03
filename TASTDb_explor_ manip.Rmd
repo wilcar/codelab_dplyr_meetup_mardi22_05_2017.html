@@ -11,7 +11,9 @@ output:
 # Préalables
 
 ## Importation des données
+
 ```{r}
+
 voyages<-read.table("tastdb_105var.csv",
                     header=TRUE, sep=",",
                     na.strings="",
