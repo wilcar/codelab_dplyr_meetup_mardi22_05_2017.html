@@ -16,18 +16,15 @@ Références:
 
 http://blog.datacamp.com/15-easy-solutions-data-frame-problems-r/  
 https://www.datacamp.com/courses/dplyr-data-manipulation-r-tutorial  
-http://personal.colby.edu/personal/m/mgimond/RIntro/04_Manipulating_data_tables.html#data-table-description
-NA  
+http://personal.colby.edu/personal/m/mgimond/RIntro/04_Manipulating_data_tables.html#data-table-description  
 http://www.r-bloggers.com/imputing-missing-data-with-r-mice-package/  
-
 https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html  
 https://stat545-ubc.github.io/block010_dplyr-end-single-table.html  
 
 
-
-Un tableau de données ou *data.frame* constitue une structure de données fondamentale de **R**. Il se compose d'une collection d'objets de différents types (*numeric, factor, character*) de longueur similaires accessibles par leur indice de position (R: A Language and Environment for Statistical Computing - Reference index, p 159).
-
 # Composition du tableau de données 
+
+Un tableau de données ou *data.frame* constitue une structure de données fondamentale de **R**. Il se compose d'une collection d'objets de différents types (*numeric, factor, character*) de longueurs similaires accessibles par leur indice de position (R: A Language and Environment for Statistical Computing - Reference index, p 159).
 
 ## Dimensions
 
@@ -66,7 +63,7 @@ str(voyages)
 ```
 ### Les facteurs (factors)
 
-Un *factor* constitue un objet particulier de R employé pour stocker les modalités d'un caractère qualitatif. 
+Un *factor* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif. 
 Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités*. Dans **r**, les  *levels* correspondent aux modalités d'un caractère.
 L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels() ou unique() {base}*. 
 
@@ -77,35 +74,39 @@ unique (voyages$ptdepimp) # ports de départ des expéditions de traite
 
 ````
 
-### Les vecteurs numériques (Integer ou numeric)
+### Les vecteurs numériques 
 
-Objets particuliers de R pour représenter les variables numeriques. Un caractères est dit quantitatif si ses modalités sont mesurables. Le caractère quantitatif prend alors le nom de *variable statistique* et ses différentes modalités sont les *valeurs* possibles de la variable (Py, 1996).
+Les *Integer* ou *numeric*  sont des objets particuliers de **R** pour stocker des variables numeriques. Un caractère est dit quantitatif si ses modalités sont mesurables. Le caractère quantitatif prend alors le nom de *variable statistique* et ses différentes modalités sont les *valeurs* possibles de la variable (Py, 1996).
 
 ```{r eval = FALSE}
+
 # Exemple: les dix premières valeurs  de la variable yearam
 head (voyages$slaximp) 
-```
 
+```
 
 ### Les Valeurs manquantes
 
-#### D?signation
+#### Désignation
 
-Dans R, les valeurs manquantes sont not?es NA (not available).
+Dans **R**, les valeurs manquantes sont notées *NA* (not available).
 
-#### Remarques
+#### Remarque
 
-Par d?faut, la plupart des fonctions de base (somme, moyenne, minimum,# maximum, etc.) n'acceptent pas les variables contenant des valeurs manquantes,ce qui peut ?tre d?routant pour les utilisateurs d'autres logiciels,# en particulier les tableurs.
+Par défaut, la plupart des fonctions de base (somme, moyenne, minimum, maximum, etc.) n'acceptent pas les variables 
+contenant des valeurs manquantes.
 
 #### Identification des valeurs manquantes
 
-La fonction *summary* permet entre autre d'indiquer les effectifs des valeurs manquantes pour chaque variable du tableau de donn?es.
+La fonction *summary* permet entre autre d'indiquer les effectifs des valeurs manquantes pour chaque variable du tableau de données.
 
 ````{r eval=FALSE}
+
 summary (voyages)
+
 ````
 
-Pour poursuivre,il s'av?re utile de pouvoir construire un tableau statistique des effectifs et fr?quences des valeurs manquantes variable par variable.
+Pour poursuivre,il s'avère utile de pouvoir construire un tableau statistique des effectifs et fréquences des valeurs manquantes *variable par variable*.
 
 ```{r eval = FALSE}
 
