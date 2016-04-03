@@ -1,5 +1,5 @@
 ---
-title: "Exploration et manipulation des tableaux de données"
+title: "Exploration et manipulation du tableau de données *Voyages*"
 author: "Wilfrid Cariou"
 date: "20 décembre 2015"
 output: 
