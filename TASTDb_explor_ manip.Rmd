@@ -1,0 +1,705 @@
+---
+title: "Exploration et manipulation des tableaux de données"
+author: "Wilfrid Cariou"
+date: "20 décembre 2015"
+output: 
+  html_document: 
+    number_sections: yes
+    toc: yes
+---
+
+
+
+
+
+Références:
+
+http://blog.datacamp.com/15-easy-solutions-data-frame-problems-r/
+https://www.datacamp.com/courses/dplyr-data-manipulation-r-tutorial
+http://personal.colby.edu/personal/m/mgimond/RIntro/04_Manipulating_data_tables.html#data-table-description
+NA
+http://www.r-bloggers.com/imputing-missing-data-with-r-mice-package/
+
+https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html
+https://stat545-ubc.github.io/block010_dplyr-end-single-table.html
+
+
+
+Un tableau de données ou *data.frame* constitue une structure de données fondamentale de *R*. Il est composé d'une collection d'objets de différents types (numeric, factor, character.) de longueur similaires. (R: A Language and Environment for Statistical Computing - Reference index, p 159)
+
+# Composition du tableau de données 
+
+## Dimensions
+
+La notion de dimension correspond au nombre de lignes et de colonnes composant le tableau.  
+Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988) The New S Language. Wadsworth & Brooks/Cole.
+
+```{r eval = FALSE}
+dim (voyages)
+```
+
+## Désignation et indice de position des colonnes (vecteurs, variables)
+
+La fonction *colnames * est utilis?e pour obtenir un affichage s?quentiel des noms de colonnes. Chaque colonne est caract?ris? par un indice qui est sa position dans le tableau. Afin de se rep?rer, R ?crit entre crochet dans la marge de gauche l'indice du premier ?lement de la ligne.  
+La fonction wich de R est une fonction primitive de R qui permet de trouver les indices de position d'un vecteur (d'une colonne) en fonction d'un condition ou propri?t? (Desgraupes, 2013, p10)
+
+```{r eval = FALSE}
+# Fonction names {base}: Affichage index? de la d?signation des colonnes du tableau 
+colnames (voyages)
+
+# Affichage de la position  d'une colonne en fonction de son nom.
+which(colnames(voyages)=="slaximp")
+
+```
+
+## Typage des données
+
+```{r eval = FALSE}
+str(voyages)
+```
+### Les facteurs (factors)
+
+#### D?fintions 
+
+Objet particulier de R pour repr?senter les caract?res qualitatifs. 
+
+Un caract?re est dit *qualitatif* lorsque son observation ne peut ?tre traduite par une mesure. Il se d?cline selon diff?rents ?tats d?nombrables appel?s *modalit?s*.
+Les niveaux du facteur appel?s *levels* correspondent ? l'ensemble des modalit?s du caract?re.
+
+Les op?rations arithm?tiques que l'on peut r?aliser sur ce type de variables sont relativement r?duites et se limitent au comptage des effectifs par modalit? (fr?quences absolues) et au calcul de pourcentage (fr?quences relatives).
+      
+* Caract?re qualitatif nominal  
+Un caract?re qualitatif est nominal lorsque ses modalit?s ne pouvent se se ranger selon une gradation logique (Py, 1996, 2013).
+
+* Caract?re qualitatif ordinal  
+Une variable qualitative ordinale poss?de toutes les propri?t?s de la variable qualitative nominale avec en plus la possibilit? de positionner et de hi?rarchiser les individus
+
+* Exemple 
+
+```{r eval = FALSE}
+  
+voyages$shipname
+levels(voyages$shipname)
+```
+
+#### Inspection des modalit?s d'une variable nominale
+Une variable nominale est une variable qui ne prend pas de valeurs num?riques (Delmas (1996)). Dans R, une variable nominale est de de type *factor*.
+L'insepction des modalit?s prises par une variable qualitative s'?ffectue ? l'aide de la fonction *levels* ou *unique* (R base)
+
+(Les modalit?s correspondent aux valeurs possibles de la variable statistique. )
+
+````{r eval=FALSE}
+levels (voyages$ptdepimp) # ports de d?part des exp?ditions de traite
+unique (voyages$ptdepimp) # ports de d?part des exp?ditions de traite
+````
+
+
+### Les vecteurs num?riques (Integer ou numeric)
+
+Objet particulier de R pour repr?senter les variables numeriques. 
+
+Variable quantitative (Integer ou numeric).
+
+Un caract?res est dit quantitatif si ses modalit?s sont mesurables. Le caract?re quantitatif prend alors le nom de *variable statistique* et ses diff?rentes modalit?s sont les *valeurs* possibles de la variable (py 1996).
+
+Exemple: les dix premi?res valeurs  de la variable *slaximp*:
+```{r eval = FALSE}
+  
+head (voyages$slaximp) 
+```
+* Variable quantitative discr?te.
+
+
+Une variable $X$ est dite discr?te si $X$ poss?de un nombre d?nombrable de valeurs.
+
+
+#### Inspection des valeurs d'une variable quantitative discr?te
+
+
+```{r eval = FALSE}
+eg <-unique(voyages$yearam)
+str (eg)
+
+```
+
+
+* Les variables quantitatives continues.
+
+
+Les variables qui ne sont pas discr?tes sont continues. Les valeurs possibles de la variable sont ? priori en nombre infini.
+Les variables qui d?crivent des grandeurs li?es au temps, ? l'espace, ? la masse sont consid?r?es comme des variables continues.
+
+### Les Valeurs manquantes
+
+#### D?signation
+
+Dans R, les valeurs manquantes sont not?es NA (not available).
+
+#### Remarques
+
+Par d?faut, la plupart des fonctions de base (somme, moyenne, minimum,# maximum, etc.) n'acceptent pas les variables contenant des valeurs manquantes,ce qui peut ?tre d?routant pour les utilisateurs d'autres logiciels,# en particulier les tableurs.
+
+#### Identification des valeurs manquantes
+
+La fonction *summary* permet entre autre d'indiquer les effectifs des valeurs manquantes pour chaque variable du tableau de donn?es.
+
+````{r eval=FALSE}
+summary (voyages)
+````
+
+Pour poursuivre,il s'av?re utile de pouvoir construire un tableau statistique des effectifs et fr?quences des valeurs manquantes variable par variable.
+
+```{r eval = FALSE}
+
+# fonction colSums
+
+colSums(is.na(voyages)) 
+
+missing<-colSums(is.na(voyages))
+missing
+
+# fonction sum
+
+sum (missing)
+
+# options(scipen=x) where x is the number of decimal places you want to display
+options("scipen"=9999)
+````
+
+F=\frac{effectif}{effectif total}
+
+```{r eval = FALSE}
+#Fr?quences des valeurs manquantes
+## V1
+
+missing_freq <- missing/200
+missing_freq
+effectif_total <- nrow(voyages) 
+effectif_total
+
+## V2
+
+
+missing_freq <- missing/effectif_total
+missing_freq
+
+```
+
+
+
+# Visualisation des donn?es
+
+## visualisation du tableau de donn?es dans la console
+
+```{r eval = FALSE}
+print (voyages) # nombre de lignes limit? ? 95 lignes
+head (voyages) # 6 lignes de t?te
+tail (voyages) # 6 lignes de fin
+# argument suppl?mentaire n= nb de lignes
+```
+
+## Visualisation du tableau de donn?es dans Rstudio
+
+Le volet Environment de *Rtudio* permet d'acc?der aux objets contenus dans la m?moire de R et afficher les *data.frames* dans un onglet. (copi?-coll? possible vers le tableur)
+
+
+## Visualisation de la s?rie statistique d'une variable
+Une s?rie statistique est la suite des observations d'une (ou plusieurs) variable(s), relev?es sur les individus d'une
+population. Il se r?alise par la combinaison *nom du tableau*, op?rateur
+*$*, *nom de la variable*.
+
+```{r eval=FALSE}
+voyages$slaximp
+voyages$ptdepimp
+
+```
+
+
+
+## autres outils de visualisation
+
+library (Kmisc)
+
+htmlTable
+Generate an HTML Table
+
+htmlTable (voyages)
+
+
+
+library (googleVis)
+datagtable <- gvisTable(data_small1, 
+                        options=list(page='enable',
+                        height='automatic',
+                        width='automatic'))
+plot (datagtable )
+
+### GoogleVis (ne fonctionne pas avec des tableaux larges)
+
+porbl?me du codage de cart?re unicode system
+
+
+library (googleVis)
+datagtable <- gvisTable(voyages, 
+                        height='automatic')
+plot (datagtable )
+
+
+
+# Manipulation du tableau de donn?es
+
+
+## Manipulation des colonnes 
+
+
+### S?lection de colonnes
+
+
+#### S?lection en utilisant les outils de base {base}
+
+[lignes,colonnes] 
+L'ommission d'un ?lement permet de s?lectionner une ligne ou une colonne entiere
+[,colonnes] 
+[lignes,]
+
+
+* Le mode le plus simple d'indexation consiste ? indiquerla position dans le *data.frame* des colonnes ? conserver : dans cet exemple, les colonnes 1 et 2
+[,]
+
+````{r eval=FALSE}
+# La syntaxe suit une notation virgule crochet [,colonne]
+eg1_handld_column<- (voyages[,1:2]) 
+
+````
+
+* Un autre mode d'indexation consiste ? s?lectionner des colonnes par la saisie des noms de variable. (fonction *c (combine)*.
+
+````{r eval=FALSE}
+# La syntaxe suit une notation crochet
+eg1_handld_column <- voyages[,c("voyageid","ptdepimp")] 
+
+
+````
+
+* S?lection par suppression
+
+```{r eval = FALSE}
+eg1_handld_column <- voyages[,-10] # par convention, un indoce pr?c?d? d'un signe moins signifie que l'on supprime l'?lement situ? ? cet indice
+eg1_handld_column <- voyages[,-(10:105)] #i par convention, un indoce pr?c?d? d'un signe moins signifie que l'on supprime l'?lement situ? ? cet indice
+
+```
+
+
+#### S?lection de colonnes en utilisant le package dplyr  {dplyr}
+
+Fonction select
+
+
+````{r eval=FALSE}
+
+library (dplyr)
+
+eg_handld_column <- voyages %>%
+                    select (1:2)
+
+eg_handld_column <- voyages %>%
+                    select(1,2)
+
+
+eg_handld_column <- voyages %>%
+                    select(voyageid, shipname)
+                  
+                  
+eg_handld_column <- voyages %>%
+                    select(-(2:105))
+
+````
+
+
+### R?agencement des colonnes du tableau de donn?es
+
+#### R?agencement colonne/colonne
+
+##### fonction *combine* et notation crochet {base}
+
+
+```{r eval=FALSE}
+
+# Fonction wich : indexation d'un nom de colonne
+
+
+which(colnames(voyages)=="yearam")
+
+eg3_handld_column<- (voyages[,c(1,54,2:105)]) 
+
+eg3_handld_column<- (voyages[,-55])
+
+
+```
+
+
+##### Fonction *select* (package dplyr)
+
+
+
+```{r eval=FALSE}
+# Ne "doublonne pas la variable" d?plac?e
+
+data_small1<- voyages %>%
+  select(voyageid, yearam, shipname, ownera,
+         captaina,ptdepimp, majbyimp,
+         mjselimp,
+         voy1imp, slaximp)
+         
+
+
+eg4_handld_column <- voyages %>%
+                select(1,54,2:105)
+
+````
+
+
+##### Fonction *select* : outils sp?ciaux
+
+Outils simplificateurs (documentation : dplyr sheat sheet)
+
+```{r eval = FALSE}
+
+eg_handld_column<- voyages %>%
+                   select(starts_with(owner))
+
+```
+
+
+
+#### R?agencement selon un tri alphab?tique des noms de colonnes
+
+```{r eval = FALSE}
+
+alphabet_data <- voyages %>%
+                 select (order(colnames(.)))
+
+```
+
+* fonction order {base}
+* fonction colnames {base}
+* signe point: n'importe quel caract?re?
+
+
+r?f?rence: stack overflow: Dplyr order columns aphabetically in R
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+************************************************************************************************************************
+##  S?lection des lignes
+
+
+
+### S?lection selon une modalit? appartenant ? un caract?re 
+
+Exemple de la modalit? *Nantes*, appartenant au caract?re *ptdepimp* (ports de d?part des exp?ditions de traite).
+
+
+
+#### S?lection de lignes, notation crochet et fonction *subset* (R base) 
+
+````{r eval=FALSE}
+
+# Aper?u des modalit?s de la variable ptdepimp
+levels (dataR1$ptdepimp) 
+
+
+# Indexation: la syntaxe suit une notation crochet
+eg1_nantes <- voyages[voyages$ptdepimp=="Nantes",]
+
+
+# Visualisation
+utils::View  (eg_1nantes)
+summary (eg1_nantes$ptdepimp)
+# les valeurs manquantes sont inclues dans l'indexation
+
+
+# proposition 2: l'utilisation fonction subset exclue par d?faut 
+# les valeurs manquantes
+nantesR3 <- subset(voyages, ptdepimp=="Nantes")
+nantesR3
+summary (nantesR3$ptdepimp)
+````
+
+
+
+####  S?lection de lignes, fonction *filter* (package dplyr)
+
+
+
+````{r eval=FALSE}
+
+nantes <- voyages %>% 
+          filter (ptdepimp == "Nantes")
+````
+
+### S?lection selon une valeur 
+
+````{r eval=FALSE}
+library (dplyr)
+
+
+
+year1789 <- voyages %>%
+            filter(yearam == 1789)
+
+````
+
+
+https://www.kaggle.com/justmarkham/introducing-kaggle-scripts/introduction-to-dplyr-part-2/notebook 
+
+### S?lection selon une combinaison de valeurs appartenant ? une variable
+
+
+```{r eval = FALSE}
+p_1600_1605 <- voyages %>%
+                    filter(yearam >= 1600 & yearam < 1605 )
+```
+
+
+
+
+### S?lection selon une combinaison de modalit?s appartenant ? un caract?re
+
+
+
+````{r eval=FALSE}
+
+library (dplyr)
+
+# d?tour 
+
+grepl("Bristol|London", voyages$ptdepimp)
+# Ou
+str_detect (voyages$ptdepimp, "Bristol|London")
+
+
+# combinaison des fonctions
+eg_brest_vannes <- voyages %>% 
+                   filter( grepl("Bristol|London", ptdepimp))
+# ou 
+
+library (stringr)
+eg_london_bristol<- voyages %>% 
+                   filter( str_detect(ptdepimp, "Bristol|London"))
+
+          
+
+# ne fonctionne pas
+library (stringr)
+eg3_brestmorlaix <- voyages %>% 
+                   filter( ptdepimp =="Vannes" & ptdepimp =="Morlaix")
+
+# pistes avec les symbole %in% (stackoverflow)
+
+````
+
+
+
+## S?lection par n?gation d'une cha?ne de caract?res
+Utilisation du signe ! (point d'exclamation) comme op?rateur de n?gation
+
+```{r eval = FALSE}
+specific_ports <- voyages %>% 
+                   filter(!grepl("unspecified", ptdepimp))
+
+specific_ports <- voyages %>% 
+                   filter(!str_detect (ptdepimp, "unspecified"),! is.na= TRUE) # supression des NA
+                   
+                   
+```
+
+
+
+## Combinaison de modalit?s / valeurs appartenant ? plusieurs caract?res/ variables
+
+
+###  Combinaison  port de d?part / navire en particulier
+
+```{r eval=FALSE}
+
+nante_db <- voyages %>%
+            filter (ptdepimp == "Nantes", shipname == "Duc de Bretagne")
+
+# ou
+
+
+nante_db <- voyages %>%
+            filter (ptdepimp == "Nantes") %>%
+            filter (shipname == "Duc de Bretagne")
+
+```
+
+
+
+###  Combinaison  port de d?part / navire en particulier
+
+```{r eval=FALSE}
+
+nantes_1789 <- voyages %>%
+            filter (ptdepimp == "Nantes", yearam == 1789)
+
+# ou
+
+
+nantes_1789 <- voyages %>%
+            filter (ptdepimp == "Nantes") %>%
+            filter (yearam == 1789)
+
+```
+
+
+### S?lection d'une modalit? portant sur ue ensemble
+
+### S?lection montaudouin chaine?
+```{r eval = FALSE}
+
+library (dplyr)
+unique(tst_db$ownera) 
+
+Nantes <- tst_db%>%
+            filter (ptdepimp == "Nantes")
+
+
+armateur <- tst_db %>%
+            filter(grepl("Montaudouin", ownera))
+
+armateur
+unique(tst_db$ownera) 
+
+```
+
+```{r eval = FALSE}
+
+index armateur <- tst_db %>%
+            filter(grepl("Montaudouin", ownera))
+
+armateur
+unique(tst_db$ownera) 
+
+```
+
+
+
+
+
+
+## Tri 
+
+Dplyr fait appel ? la fonction *arrange*.  L'argument par d?faut est un classement par ordre croissant. Pour un classement par ordre d?croissant, l'utilisastion de l'argument *desc()* est recquise.
+
+```{r eval=FALSE}
+
+# {base}
+sort_voyages<-traite1700_1800[order(voyages$"yearam"),] 
+
+
+
+# {dplyr}
+datachrono <- dataset_tst %>%
+                arrange (yearam)
+
+
+data_small1<- voyages %>%
+              select(voyageid, yearam, shipname, ownera,
+              captaina,ptdepimp, majbyimp,
+              mjselimp,
+              voy1imp, slaximp) %>%
+              arrange (yearam)
+
+
+nantesD2 <- voyages %>%
+            filter (ptdepimp=="Nantes") %>%
+            arrange (yearam)
+
+# Combinaison  port de d?part / chrono / navire en particulier
+
+
+nantesD3 <- voyages %>% filter (ptdepimp == "Nantes", shipname == "Duc de Bretagne")
+                       %>% arrange (yearam)
+
+```
+
+
+
+## Recherche de combinaisons uniques: exemple de l'identification des navires
+
+
+Identification des navires un et un tonnage similaire
+
+
+YRCONS Year of vessel's construction
+PLACCONS Place where vessel constructed
+YRREG Year of vessel's registration
+PLACREG Place where vessel registered
+
+
+```{r eval = FALSE}
+
+
+
+unique_ships1 <-voyages %>% 
+           select (shipname, tonnage, placreg, yrreg) %>%
+           distinct(shipname, tonnage) %>%
+           filter (!is.na(tonnage == TRUE)) %>%
+           arrange(shipname)
+
+
+unique_ships2<-voyages %>% 
+           select (shipname, tonnage, placreg, yrreg, ptdepimp) %>%
+           distinct(shipname, placreg, yrreg) %>%
+           filter (!is.na(tonnage == TRUE), !is.na(placreg == TRUE), ptdepimp =="Nantes") %>%
+           arrange(shipname)
+
+
+
+
+uniques2 <-unique_ships1  %>% 
+group_by (shipname) %>% 
+summarise( n=n())
+uniques2
+
+  
+
+
+
+di <- data_small1 %>%
+      filter (ptdepimp == "Nantes")
+      distinct(shipname)
+````
+
+
+Selection NA NON NA
+
+```{r eval = FALSE}
+colnames (tst_db)      
+tst_db_complete <- tst_db %>%
+                   filter(!is.na(1:10) = TRUE)    
+                   
+tst_db_complete
+
+# Or a little more general:
+
+library(dplyr) # 0.4
+df %>% filter(complete.cases(1:12,27:88))
+
+```
+
+
+
