@@ -45,6 +45,13 @@ dim (voyages)
 
 # Fonction names {base}: Affichage index de la désignation des colonnes du tableau 
 colnames (voyages)
+````
+
+  [1] "voyageid"    "shipname"    "natinimp"    "placcons"    "yrcons"      "placreg"     "yrreg"       "rig"        
+  [9] "tonnage"     "tonmod"      "guns"        "ownera"      "ownerb"      "ownerc"      "ownerd"      "ownere"     
+ [17] "ownerf"      "ownerg"      "ownerh"      "owneri"      "ownerj"      "ownerk"      "ownerl"      "ownerm"     
+ [25] "ownern"      "ownero"      "ownerp"      "fate"        "fate2"       "fate3"       "fate4"       "resistance"
+
 
 # Affichage de la position  d'une colonne en fonction de son nom.
 which(colnames(voyages)=="slaximp")
@@ -106,7 +113,7 @@ summary (voyages)
 
 ````
 
-Pour poursuivre,il s'avère utile de pouvoir construire un tableau statistique des effectifs et  des fréquences des valeurs manquantes *variable par variable*.
+Pour poursuivre,il s'avère utile de pouvoir construire un tableau statistique des effectifs et des fréquences des valeurs manquantes *variable par variable*.
 
 ```{r eval = FALSE}
 
