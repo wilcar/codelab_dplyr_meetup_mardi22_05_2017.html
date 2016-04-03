@@ -221,7 +221,7 @@ head (voyages, n=15) # 15 lignes de tête
 Le volet *Environment* de **Rtudio** permet d'accéder aux objets contenus dans la mémoire de **R** et d'afficher les tableaux de données dans des onglets dédiés.
 
 
-https://github.com/wilfridcariou/The-Trans-Atlantic-Slave-Trade-Db/blob/master/images/rstudio_dfviz.jpg
+![alt text] (https://github.com/wilfridcariou/The-Trans-Atlantic-Slave-Trade-Db/blob/master/images/rstudio_dfviz.jpg)
 
 
 
