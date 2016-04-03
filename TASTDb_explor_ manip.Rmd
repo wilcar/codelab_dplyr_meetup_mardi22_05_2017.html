@@ -8,18 +8,27 @@ output:
     toc: yes
 ---
 
+# Préalables
+
+## Importation des données
+```{r}
+voyages<-read.table("tastdb_105var.csv",
+                    header=TRUE, sep=",",
+                    na.strings="",
+                    quote = "\"",
+                    dec=".") 
+```
 
 
 
+## Références
 
-Références:
-
-http://blog.datacamp.com/15-easy-solutions-data-frame-problems-r/  
-https://www.datacamp.com/courses/dplyr-data-manipulation-r-tutorial  
-http://personal.colby.edu/personal/m/mgimond/RIntro/04_Manipulating_data_tables.html#data-table-description  
-http://www.r-bloggers.com/imputing-missing-data-with-r-mice-package/  
-https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html  
-https://stat545-ubc.github.io/block010_dplyr-end-single-table.html  
+* http://blog.datacamp.com/15-easy-solutions-data-frame-problems-r/  
+* https://www.datacamp.com/courses/dplyr-data-manipulation-r-tutorial  
+* http://personal.colby.edu/personal/m/mgimond/RIntro/04_Manipulating_data_tables.html#data-table-description  
+* http://www.r-bloggers.com/imputing-missing-data-with-r-mice-package/  
+* https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html  
+* https://stat545-ubc.github.io/block010_dplyr-end-single-table.html  
 
 
 # Composition du tableau de données *voyages*
@@ -71,6 +80,18 @@ which(colnames(voyages)=="slaximp")
 str(voyages)
 
 ```
+
+
+ $ voyageid   : **int**  1 2 3 4 5 6 7 8 9 10 ...  
+ $ shipname   : **Factor** w/ 9105 levels "'s-Graveland",..: 6303 8461 6274 893 774 8837 2674 8771 1591 1485 ...  
+ $ natinimp   : Factor w/ 8 levels "Denmark / Baltic",..: 6 6 6 6 6 6 6 6 6 6 ...  
+ $ placcons   : Factor w/ 238 levels "Airth","Amesbury",..: NA NA NA NA NA NA NA NA NA NA ...  
+
+* *voyageid* est un objet de type *integer*  
+* *shipname* est un objet de type *Factor*  
+
+
+
 ### Les facteurs 
 
 Un  *facteur (factor)* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif. 
