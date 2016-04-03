@@ -221,6 +221,10 @@ head (voyages, n=15) # 15 lignes de tête
 Le volet *Environment* de **Rtudio** permet d'accéder aux objets contenus dans la mémoire de **R** et d'afficher les tableaux de données dans des onglets dédiés.
 
 
+https://github.com/wilfridcariou/The-Trans-Atlantic-Slave-Trade-Db/blob/master/images/rstudio_dfviz.jpg
+
+
+
 ## Visualisation de la série statistique d'une variable
 Une série statistique est la suite des observations d'une (ou plusieurs) variable(s), relevés sur les individus d'une population.  
 La visualisation d'une série statistique se réalise par la combinaison *nom du tableau*, opérateur *$*, *nom de la variable*.
