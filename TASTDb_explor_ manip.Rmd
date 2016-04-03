@@ -201,9 +201,10 @@ sum(missing_n)
 
 
 
+
 # Visualisation des données
 
-## visualisation du tableau de données dans la console
+## Visualisation du tableau de données dans la console
 
 ```{r eval = FALSE}
 
@@ -218,10 +219,10 @@ head (voyages, n=15) # 15 lignes de tête
 
 ## Visualisation du tableau de données dans RStudio
 
-Le volet *Environment* de **Rtudio** permet d'accéder aux objets contenus dans la mémoire de **R** et d'afficher les tableaux de données dans des onglets dédiés.
+Le volet *Environment*, qui liste les objets en mémoire, offre la possibilité d'activer (par un simple clic) l'affichage des tableaux de données dans des onglets dédiés.
 
 
-![alt text] (https://github.com/wilfridcariou/The-Trans-Atlantic-Slave-Trade-Db/blob/master/images/rstudio_dfviz.jpg)
+![Rstudio] (https://github.com/wilfridcariou/The-Trans-Atlantic-Slave-Trade-Db/blob/master/images/rstudio_dfviz.jpg)
 
 
 
@@ -239,54 +240,32 @@ voyages$guns
 
 
 
-## autres outils de visualisation
-
-library (Kmisc)
-
-htmlTable
-Generate an HTML Table
-
-htmlTable (voyages)
 
 
 
-library (googleVis)
-datagtable <- gvisTable(data_small1, 
-                        options=list(page='enable',
-                        height='automatic',
-                        width='automatic'))
-plot (datagtable )
-
-### GoogleVis (ne fonctionne pas avec des tableaux larges)
-
-porbl?me du codage de cart?re unicode system
-
-
-library (googleVis)
-datagtable <- gvisTable(voyages, 
-                        height='automatic')
-plot (datagtable )
 
 
 
-# Manipulation du tableau de donn?es
+
+
+# Manipulations portant sur le tableau de données
 
 
 ## Manipulation des colonnes 
 
 
-### S?lection de colonnes
+### Sélection de colonnes
 
 
-#### S?lection en utilisant les outils de base {base}
+#### Sélection en utilisant la syntaxe de R{base}
 
 [lignes,colonnes] 
-L'ommission d'un ?lement permet de s?lectionner une ligne ou une colonne entiere
+L'ommission d'un élement permet de sélectionner une ligne ou une colonne entiere
 [,colonnes] 
 [lignes,]
 
 
-* Le mode le plus simple d'indexation consiste ? indiquerla position dans le *data.frame* des colonnes ? conserver : dans cet exemple, les colonnes 1 et 2
+* Le mode le plus simple d'indexation consiste à indiquerla position dans le *data.frame* des colonnes ? conserver : dans cet exemple, les colonnes 1 et 2
 [,]
 
 ````{r eval=FALSE}
