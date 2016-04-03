@@ -25,14 +25,13 @@ https://stat545-ubc.github.io/block010_dplyr-end-single-table.html
 
 
 
-Un tableau de données ou *data.frame* constitue une structure de données fondamentale de *R*. Il est composé d'une collection d'objets de différents types (numeric, factor, character.) de longueur similaires. (R: A Language and Environment for Statistical Computing - Reference index, p 159)
+Un tableau de données ou *data.frame* constitue une structure de données fondamentale de *R*. Il est composé d'une collection d'objets de différents types (numeric, factor, character.) de longueur similaires accessibles par le indice de position (R: A Language and Environment for Statistical Computing - Reference index, p 159).
 
 # Composition du tableau de données 
 
 ## Dimensions
 
-La notion de dimension correspond au nombre de lignes et de colonnes composant le tableau.
-Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988) The New S Language. Wadsworth & Brooks/Cole.
+Un tableau de données est un tableau à deux dimensions. La fonction *dim(){base}*  permet d'en connaître le nombre de lignes et de colonnes (Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988) The New S Language. Wadsworth & Brooks/Cole.).
 
 ```{r eval = FALSE}
 
@@ -42,10 +41,10 @@ dim (voyages)
 
 ## Désignation et indice de position des colonnes (vecteurs, variables)
 
-### La fonction *colnames()* 
-La fonction *colnames * est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* qui donne sa position au sein du tableau. R affiche  entre crochet dans la marge de gauche de la console  l'indice du premier élément de chaque  ligne.  
-### La fonction *wich()* 
-La fonction wich de R est une fonction primitive de R qui permet d'identifier  les indices de position d'un vecteur (d'une colonne) en fonction de son nom. (Desgraupes, 2013, p10)
+### La fonction colnames(){base}
+La fonction *colnames* est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* qui donne sa position au sein du tableau. R affiche  entre crochet dans la marge de gauche de la console  l'indice du premier élément de chaque  ligne.  
+### La fonction wich(){base}
+La fonction *wich* est une fonction primitive de R qui permet d'identifier  l'indice de position d'un vecteur (d'une colonne) en fonction de son nom (Desgraupes, 2013, p10).
 
 ```{r eval = FALSE}
 
@@ -60,79 +59,34 @@ which(colnames(voyages)=="slaximp")
 ## Typage des données
 
 ```{r eval = FALSE}
+
 str(voyages)
+
 ```
 ### Les facteurs (factors)
 
-#### D?fintions 
-
-Objet particulier de R pour repr?senter les caract?res qualitatifs. 
-
-Un caract?re est dit *qualitatif* lorsque son observation ne peut ?tre traduite par une mesure. Il se d?cline selon diff?rents ?tats d?nombrables appel?s *modalit?s*.
-Les niveaux du facteur appel?s *levels* correspondent ? l'ensemble des modalit?s du caract?re.
-
-Les op?rations arithm?tiques que l'on peut r?aliser sur ce type de variables sont relativement r?duites et se limitent au comptage des effectifs par modalit? (fr?quences absolues) et au calcul de pourcentage (fr?quences relatives).
-      
-* Caract?re qualitatif nominal  
-Un caract?re qualitatif est nominal lorsque ses modalit?s ne pouvent se se ranger selon une gradation logique (Py, 1996, 2013).
-
-* Caract?re qualitatif ordinal  
-Une variable qualitative ordinale poss?de toutes les propri?t?s de la variable qualitative nominale avec en plus la possibilit? de positionner et de hi?rarchiser les individus
-
-* Exemple 
-
-```{r eval = FALSE}
-  
-voyages$shipname
-levels(voyages$shipname)
-```
-
-#### Inspection des modalit?s d'une variable nominale
-Une variable nominale est une variable qui ne prend pas de valeurs num?riques (Delmas (1996)). Dans R, une variable nominale est de de type *factor*.
-L'insepction des modalit?s prises par une variable qualitative s'?ffectue ? l'aide de la fonction *levels* ou *unique* (R base)
-
-(Les modalit?s correspondent aux valeurs possibles de la variable statistique. )
+Un *factor* constitue un objet particulier de R employé" pour stocker les modalités d'un caractères qualitatif. 
+Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités*. Les niveaux du facteur appelés *levels* correspondent à l'ensemble des modalités du caractère.
+L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels* ou *unique* (R base). 
 
 ````{r eval=FALSE}
-levels (voyages$ptdepimp) # ports de d?part des exp?ditions de traite
-unique (voyages$ptdepimp) # ports de d?part des exp?ditions de traite
+
+levels (voyages$ptdepimp) # ports de départ des expéditions de traite
+unique (voyages$ptdepimp) # ports de départ des expéditions de traite
+
 ````
 
+### Les vecteurs numériques (Integer ou numeric)
 
-### Les vecteurs num?riques (Integer ou numeric)
+Objets particuliers de R pour représenter les variables numeriques. 
 
-Objet particulier de R pour repr?senter les variables numeriques. 
+Un caractères est dit quantitatif si ses modalités sont mesurables. Le caractère quantitatif prend alors le nom de *variable statistique* et ses différentes modalités sont les *valeurs* possibles de la variable (py 1996).
 
-Variable quantitative (Integer ou numeric).
-
-Un caract?res est dit quantitatif si ses modalit?s sont mesurables. Le caract?re quantitatif prend alors le nom de *variable statistique* et ses diff?rentes modalit?s sont les *valeurs* possibles de la variable (py 1996).
-
-Exemple: les dix premi?res valeurs  de la variable *slaximp*:
 ```{r eval = FALSE}
-  
+# Exemple: les dix premières valeurs  de la variable yearam
 head (voyages$slaximp) 
 ```
-* Variable quantitative discr?te.
 
-
-Une variable $X$ est dite discr?te si $X$ poss?de un nombre d?nombrable de valeurs.
-
-
-#### Inspection des valeurs d'une variable quantitative discr?te
-
-
-```{r eval = FALSE}
-eg <-unique(voyages$yearam)
-str (eg)
-
-```
-
-
-* Les variables quantitatives continues.
-
-
-Les variables qui ne sont pas discr?tes sont continues. Les valeurs possibles de la variable sont ? priori en nombre infini.
-Les variables qui d?crivent des grandeurs li?es au temps, ? l'espace, ? la masse sont consid?r?es comme des variables continues.
 
 ### Les Valeurs manquantes
 
