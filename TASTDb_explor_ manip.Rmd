@@ -89,28 +89,31 @@ str(voyages)
  $ natinimp   : Factor w/ 8 levels "Denmark / Baltic",..: 6 6 6 6 6 6 6 6 6 6 ...  
  $ placcons   : Factor w/ 238 levels "Airth","Amesbury",..: NA NA NA NA NA NA NA NA NA NA ...  
 
-* *voyageid* est un objet de type *integer*  
-* *shipname* est un objet de type *Factor*  
+* *voyageid*: objet de type **integer**  
+* *shipname*: objet de type **Factor**  
 
 
 
 ### Les facteurs 
 
-Un  *facteur (factor)* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif. 
-Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités*. Dans **R**, les  *levels* correspondent aux modalités d'un caractère.
+Un  *facteur (factor)* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif.   
+Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités*. Dans **R**, les  *levels* correspondent aux modalités d'un caractère.  
 L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels() ou unique() {base}*. 
 
 ````{r eval=FALSE}
+
 ports de départ des expéditions de traite 
-levels (voyages$ptdepimp) #  classement des modalités par ordre alphabétique
+levels (voyages$ptdepimp) # classement des modalités par ordre alphabétique
 unique (voyages$ptdepimp) # absence de classement
-sort (unique (voyages$ptdepimp)) # classement des modalités par ordre alphabétique (combinaison avec la fonction sort)
+
+# classement par ordre alphabétique (combinaison avec la fonction sort)
+sort (unique (voyages$ptdepimp))
 
 ````
 
 ### Les vecteurs numériques 
 
-Les vecteurs numériques *Integer* ou *numeric*  sont des objets utilisés pour stocker les valeurs d'une variable quantitative. 
+Les vecteurs numériques *Integer* ou *numeric* sont des objets utilisés pour stocker les valeurs d'une variable quantitative. 
 
 ```{r eval = FALSE}
 
@@ -143,30 +146,43 @@ summary (voyages)
 
 ````
 
-Pour poursuivre,il s'avère utile de pouvoir construire un tableau statistique des effectifs et des fréquences des valeurs manquantes *variable par variable*.
+Effectifs et fréquences des valeurs manquantes *variable par variable*.
 
 ```{r eval = FALSE}
 
-# fonction colSums
+# fonction colSums; 
+# stockage des données manquantes dans l'objet missing_n
 
-colSums(is.na(voyages)) 
+missing_n<-colSums(is.na(voyages))
+missing # affichage dans la console
 ````
 
    voyageid    shipname    natinimp    placcons      yrcons     placreg       yrreg  
           0        1594        1529       26058       28757       27718       30431      
           
+* Le vecteur  *voyageid*: ne contient pas de données manquantes.  
+* *shipname*: contient 1594 données manquantes. 
 
 
 ```{r}
-missing<-colSums(is.na(voyages))
+
+# fonction colMeans associée à la constante logique  is.na; 
+# résultats exprimés en pourcentages, arrondis au dixième:
+# stockage des données manquantes dans l'objet missing_freq.
+
+missing_freq<-round (100*colMeans(is.na(voyages)), 1)
+missing_freq # affichage dans la console
+
 ```
 
 
-
-
-# fonction sum
+```{r}
 
 sum (missing)
+
+```
+
+
 
 # options(scipen=x) where x is the number of decimal places you want to display
 options("scipen"=9999)
@@ -188,6 +204,7 @@ effectif_total
 
 missing_freq <- missing/effectif_total
 missing_freq
+
 
 ```
 
