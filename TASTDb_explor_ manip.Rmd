@@ -31,20 +31,25 @@ Un tableau de données ou *data.frame* constitue une structure de données fonda
 
 ## Dimensions
 
-La notion de dimension correspond au nombre de lignes et de colonnes composant le tableau.  
+La notion de dimension correspond au nombre de lignes et de colonnes composant le tableau.
 Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988) The New S Language. Wadsworth & Brooks/Cole.
 
 ```{r eval = FALSE}
+
 dim (voyages)
+
 ```
 
 ## Désignation et indice de position des colonnes (vecteurs, variables)
 
-La fonction *colnames * est utilis?e pour obtenir un affichage s?quentiel des noms de colonnes. Chaque colonne est caract?ris? par un indice qui est sa position dans le tableau. Afin de se rep?rer, R ?crit entre crochet dans la marge de gauche l'indice du premier ?lement de la ligne.  
-La fonction wich de R est une fonction primitive de R qui permet de trouver les indices de position d'un vecteur (d'une colonne) en fonction d'un condition ou propri?t? (Desgraupes, 2013, p10)
+### La fonction *colnames()* 
+La fonction *colnames * est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* qui donne sa position au sein du tableau. R affiche  entre crochet dans la marge de gauche de la console  l'indice du premier élément de chaque  ligne.  
+### La fonction *wich()* 
+La fonction wich de R est une fonction primitive de R qui permet d'identifier  les indices de position d'un vecteur (d'une colonne) en fonction de son nom. (Desgraupes, 2013, p10)
 
 ```{r eval = FALSE}
-# Fonction names {base}: Affichage index? de la d?signation des colonnes du tableau 
+
+# Fonction names {base}: Affichage index de la désignation des colonnes du tableau 
 colnames (voyages)
 
 # Affichage de la position  d'une colonne en fonction de son nom.
