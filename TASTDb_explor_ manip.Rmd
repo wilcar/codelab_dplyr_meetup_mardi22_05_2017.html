@@ -392,14 +392,16 @@ alphabet_data <- voyages %>%
 
 ##  Sélection des lignes
 
-### sélection de lignes en fonction d'une colonne
+### Sélection de lignes en fonction d'une colonne
 
-#### Sélection selon la modalité d'un caractère qualitatif
+#### Cas des caractères qualitatifs
+
+#####  Sélection selon la modalité d'un caractère qualitatif
 
 Exemple de la modalité *Nantes*, appartenant au caractère *ptdepimp* (ports de départ des expéditions de traite).
 
 
-##### Notation crochet et fonction subset() {base} 
+###### Notation crochet et fonction subset() {base} 
 
 ````{r eval=FALSE}
 
@@ -408,7 +410,7 @@ nantessub1 <- subset(voyages, ptdepimp=="Nantes")
 ````
 
 
-##### Fonction filter(){dplyr}
+###### Fonction filter(){dplyr}
 
 ````{r eval=FALSE}
 
@@ -417,7 +419,8 @@ nantes <- voyages %>%
 
 ````
 
-#### Sélection par exclusion d'une sous-chaîne de caractères
+
+##### Sélection par exclusion d'une sous-chaîne de caractères
 
 La sélection s'effectue par une expression régulière introduite par une fonction d'identification et utilisant le signe ! (point d'exclamation) comme opérateur d'exclusion.
 
@@ -433,7 +436,7 @@ ports_identified <- voyages %>%
 
 ```
 
-#### Sélection selon une combinaison de modalités appartenant à un caractère
+##### Sélection selon une combinaison de modalités appartenant à un caractère
 
 La sélection selon une combinaison de modalités appartenant à un caractère s'effectue par une expression régulière introduite par une fonction d'identification et utilisant le signe | (barre verticale) comme opérateur d'alternation.
 
@@ -463,8 +466,19 @@ bristol_london <- voyages %>%
 
 ````
 
+##### Sélection en fonction d'une sous-chaîne commune à un ensemble de modalités
 
-#### Sélection selon une valeur quantitative
+```{r eval = FALSE}
+
+armateur <- tst_db %>%
+            filter(grepl("Montaudouin", ownera))
+
+```
+
+
+#### Cas des variables quantitatives
+
+##### Sélection selon une valeur quantitative
 
 ````{r eval=FALSE}
 
@@ -474,7 +488,7 @@ year1789 <- voyages %>%
 ````
 
 
-#### Sélection selon une combinaison de valeurs issues d'une variable quantitative
+#### Sélection selon une combinaison de valeurs
 
 ```{r eval = FALSE}
 
@@ -484,10 +498,10 @@ p_1600_1605 <- voyages %>%
 ```
 
 
-## Sélection de lignes en fonction de différentes colonnes
+###  Sélection de lignes en fonction de différentes colonnes
 
 
-###  Combinaison port de départ / navire particulier
+####  Combinaison port de départ / navire particulier
 
 ```{r eval=FALSE}
 
@@ -506,36 +520,6 @@ nante_db <- voyages %>%
 
 ```
 
-
-### S?lection d'une modalit? portant sur ue ensemble
-
-### S?lection montaudouin chaine?
-```{r eval = FALSE}
-
-library (dplyr)
-unique(tst_db$ownera) 
-
-Nantes <- tst_db%>%
-            filter (ptdepimp == "Nantes")
-
-
-armateur <- tst_db %>%
-            filter(grepl("Montaudouin", ownera))
-
-armateur
-unique(tst_db$ownera) 
-
-```
-
-```{r eval = FALSE}
-
-index armateur <- tst_db %>%
-            filter(grepl("Montaudouin", ownera))
-
-armateur
-unique(tst_db$ownera) 
-
-```
 
 
 
