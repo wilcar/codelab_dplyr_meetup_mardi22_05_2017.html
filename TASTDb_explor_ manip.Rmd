@@ -31,6 +31,15 @@ voyages<-read.table("tastdb_105var.csv",
                     dec=".") 
 ```
 
+## Appel des packages
+
+```{r eval = FALSE}
+
+library (dplyr)
+library (stringr)
+
+```
+
 
 ## Références
 
@@ -270,7 +279,7 @@ voyages$guns
 # Manipulations portant sur le tableau de données
 ## Manipulation des colonnes 
 ### Sélection de colonnes
-#### Sélection en utilisant R-base
+#### Sélection de colonnes en utilisant {base}
 
 La syntaxe employée utilise une notation basée sur l'usage des crochets et des virgules:  
 [lignes,colonnes]   
@@ -312,8 +321,6 @@ handld_columns3 <- voyages[,-10]
 
 ````{r eval=FALSE}
 
-library (dplyr)
-
 # Sélection des colonnes 1 et 2
 
 handld_columns4 <- voyages %>%
@@ -336,8 +343,7 @@ handld_column6 <- voyages %>%
 
 
 ### Réagencement des colonnes du tableau de données
-#### Réagencement colonne/colonne
-##### Réagencement en utilisant la fonction *combine* et la notation crochet {base}
+#### Réagencement en utilisant la fonction *combine* et la notation crochet {base}
 
 ```{r eval=FALSE}
 
@@ -358,7 +364,7 @@ handld_column7b- (voyages[,-55])
 ```
 
 
-##### Réagencement en utilisant la fonction select(){dplyr} 
+#### Réagencement en utilisant la fonction select(){dplyr} 
 
 * Les réagencements effectués ne "doublonnent pas les colonnes" déplacées.  
 * Des fonctions complémentaires facilitent la sélection des colonnesdans certains cas (dplyr spreadsheet, https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
@@ -374,7 +380,7 @@ handld_column8a <- voyages %>%
 ```
 
 
-#### Régencement des colonnes selon l'ordre alphabétique par la combinaison des fonctions select(){dplyr} et order(){base}
+#### Régencement des colonnes selon l'ordre alphabétique
 
 ```{r eval = FALSE}
 
@@ -385,12 +391,15 @@ alphabet_data <- voyages %>%
 
 
 ##  Sélection des lignes
-### Sélection selon la modalité d'un caractère qualitatif
+
+### sélection de lignes en fonction d'une colonne
+
+#### Sélection selon la modalité d'un caractère qualitatif
 
 Exemple de la modalité *Nantes*, appartenant au caractère *ptdepimp* (ports de départ des expéditions de traite).
 
 
-#### Notation crochet et fonction subset() {base} 
+##### Notation crochet et fonction subset() {base} 
 
 ````{r eval=FALSE}
 
@@ -399,7 +408,7 @@ nantessub1 <- subset(voyages, ptdepimp=="Nantes")
 ````
 
 
-####  Fonction filter(){dplyr}
+##### Fonction filter(){dplyr}
 
 ````{r eval=FALSE}
 
@@ -408,14 +417,56 @@ nantes <- voyages %>%
 
 ````
 
+#### Sélection par exclusion d'une sous-chaîne de caractères
 
-### Sélection selon une valeur quantitative
+La sélection s'effectue par une expression régulière introduite par une fonction d'identification et utilisant le signe ! (point d'exclamation) comme opérateur d'exclusion.
+
+```{r eval = FALSE}
+
+ports_identified <- voyages %>% 
+                     filter(!grepl("unspecified", ptdepimp))
+
+# ou
+
+ports_identified <- voyages %>% 
+                     filter(!str_detect(ptdepimp, "unspecified"))
+
+```
+
+#### Sélection selon une combinaison de modalités appartenant à un caractère
+
+La sélection selon une combinaison de modalités appartenant à un caractère s'effectue par une expression régulière introduite par une fonction d'identification et utilisant le signe | (barre verticale) comme opérateur d'alternation.
+
+
+* Recherche d'un motif comportant une alternation  
+
+````{r eval = FALSE}
+
+grepl("Bristol|London", voyages$ptdepimp) # base
+
+# Ou
+
+str_detect (voyages$ptdepimp, "Bristol|London") # package stringr
+
+````
+
+* combinaison des fonctions filter et des fonctions d'identification de motif  
+
+````{r eval = FALSE}
+
+bristol_london <- voyages %>% 
+                   filter( grepl("Bristol|London", ptdepimp)) # base
+# ou 
+
+bristol_london <- voyages %>% 
+                   filter( str_detect(ptdepimp, "Bristol|London")) #stringr
+
+````
+
+
+#### Sélection selon une valeur quantitative
 
 ````{r eval=FALSE}
-
-library (dplyr)
-
-
 
 year1789 <- voyages %>%
             filter(yearam == 1789)
@@ -423,105 +474,35 @@ year1789 <- voyages %>%
 ````
 
 
-
-
-### S?lection selon une combinaison de valeurs appartenant ? une variable
-
+#### Sélection selon une combinaison de valeurs issues d'une variable quantitative
 
 ```{r eval = FALSE}
+
 p_1600_1605 <- voyages %>%
                     filter(yearam >= 1600 & yearam < 1605 )
+
 ```
 
 
+## Sélection de lignes en fonction de différentes colonnes
 
 
-### S?lection selon une combinaison de modalit?s appartenant ? un caract?re
-
-
-
-````{r eval=FALSE}
-
-library (dplyr)
-
-# d?tour 
-
-grepl("Bristol|London", voyages$ptdepimp)
-# Ou
-str_detect (voyages$ptdepimp, "Bristol|London")
-
-
-# combinaison des fonctions
-eg_brest_vannes <- voyages %>% 
-                   filter( grepl("Bristol|London", ptdepimp))
-# ou 
-
-library (stringr)
-eg_london_bristol<- voyages %>% 
-                   filter( str_detect(ptdepimp, "Bristol|London"))
-
-          
-
-# ne fonctionne pas
-library (stringr)
-eg3_brestmorlaix <- voyages %>% 
-                   filter( ptdepimp =="Vannes" & ptdepimp =="Morlaix")
-
-# pistes avec les symbole %in% (stackoverflow)
-
-````
-
-
-
-## S?lection par n?gation d'une cha?ne de caract?res
-Utilisation du signe ! (point d'exclamation) comme op?rateur de n?gation
-
-```{r eval = FALSE}
-specific_ports <- voyages %>% 
-                   filter(!grepl("unspecified", ptdepimp))
-
-specific_ports <- voyages %>% 
-                   filter(!str_detect (ptdepimp, "unspecified"),! is.na= TRUE) # supression des NA
-                   
-                   
-```
-
-
-
-## Combinaison de modalit?s / valeurs appartenant ? plusieurs caract?res/ variables
-
-
-###  Combinaison  port de d?part / navire en particulier
+###  Combinaison port de départ / navire particulier
 
 ```{r eval=FALSE}
 
 nante_db <- voyages %>%
-            filter (ptdepimp == "Nantes", shipname == "Duc de Bretagne")
+            filter (ptdepimp == "Nantes" & shipname == "Duc de Bretagne")
 
 # ou
 
+nante_db <- voyages %>%
+            filter (ptdepimp == "Nantes", shipname == "Duc de Bretagne")
+# ou
 
 nante_db <- voyages %>%
             filter (ptdepimp == "Nantes") %>%
             filter (shipname == "Duc de Bretagne")
-
-```
-
-
-
-###  Combinaison  port de d?part / navire en particulier
-
-```{r eval=FALSE}
-
-nantes_1789 <- voyages %>%
-            filter (ptdepimp == "Nantes", yearam == 1789)
-
-# ou
-
-
-nantes_1789 <- voyages %>%
-            filter (ptdepimp == "Nantes") %>%
-            filter (yearam == 1789)
 
 ```
 
