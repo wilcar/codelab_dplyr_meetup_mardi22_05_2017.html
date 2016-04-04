@@ -336,7 +336,7 @@ handld_columns5 <- voyages %>%
 
 
 # Sélection de l'ensemble dess colonnes, expectées la colonne 11
-handld_column6 <- voyages %>%
+handld_columns6 <- voyages %>%
                         select(-(11))
 
 ````
@@ -355,11 +355,11 @@ handld_column6 <- voyages %>%
 which(colnames(voyages)=="yearam") # résultat: yearam = 54
 
 # Déplacement
-handld_column7a- (voyages[,c(1,54,2:105)]) 
+handld_columns7a- (voyages[,c(1,54,2:105)]) 
 
 
 # Suppression de la colonne yearam intiale se situant désormais en 55e position
-handld_column7b- (voyages[,-55])
+handld_columns7b- (voyages[,-55])
 
 ```
 
@@ -371,16 +371,16 @@ handld_column7b- (voyages[,-55])
 
 ```{r eval=FALSE}
 
-handld_column8a <- voyages %>%
+handld_columns8sa <- voyages %>%
                 select(1,54,2:105)
 
-handld_column8a <- voyages %>%
+handld_columns8a <- voyages %>%
                 select(1,yearam,2:105)
 
 ```
 
 
-#### Régencement des colonnes selon l'ordre alphabétique
+#### Réagencement des colonnes selon l'ordre alphabétique
 
 ```{r eval = FALSE}
 
@@ -498,10 +498,10 @@ p_1600_1605 <- voyages %>%
 ```
 
 
-###  Sélection de lignes en fonction de différentes colonnes
+### Sélection de lignes en fonction de différentes colonnes
 
 
-####  Combinaison port de départ / navire particulier
+#### Combinaison port de départ / navire particulier
 
 ```{r eval=FALSE}
 
@@ -520,45 +520,15 @@ nante_db <- voyages %>%
 
 ```
 
-
-
-
-
-
-
 ## Tri 
 
-Dplyr fait appel ? la fonction *arrange*.  L'argument par d?faut est un classement par ordre croissant. Pour un classement par ordre d?croissant, l'utilisastion de l'argument *desc()* est recquise.
+Dplyr fait appel à la fonction *arrange*.  L'argument par défaut est un classement par ordre croissant. Pour un classement par ordre décroissant, l'utilisation de l'argument *desc()* est recquise.
 
 ```{r eval=FALSE}
 
-# {base}
-sort_voyages<-traite1700_1800[order(voyages$"yearam"),] 
-
-
-
-# {dplyr}
-datachrono <- dataset_tst %>%
+# Classement des expéditions en fonction de l'année de débarquement des esclaves
+datachrono <- voyages %>%
                 arrange (yearam)
-
-
-data_small1<- voyages %>%
-              select(voyageid, yearam, shipname, ownera,
-              captaina,ptdepimp, majbyimp,
-              mjselimp,
-              voy1imp, slaximp) %>%
-              arrange (yearam)
-
-
-nantesD2 <- voyages %>%
-            filter (ptdepimp=="Nantes") %>%
-            arrange (yearam)
-
-# Combinaison  port de d?part / chrono / navire en particulier
-
-
-nantesD3 <- voyages %>% filter (ptdepimp == "Nantes", shipname == "Duc de Bretagne")
-                       %>% arrange (yearam)
 
 ```
 
@@ -570,44 +540,19 @@ nantesD3 <- voyages %>% filter (ptdepimp == "Nantes", shipname == "Duc de Bretag
 Identification des navires un et un tonnage similaire
 
 
-YRCONS Year of vessel's construction
-PLACCONS Place where vessel constructed
-YRREG Year of vessel's registration
-PLACREG Place where vessel registered
+* YRCONS Year of vessel's construction  
+* PLACCONS Place where vessel constructed  
+* YRREG Year of vessel's registration  
+ PLACREG Place where vessel registered  
 
 
 ```{r eval = FALSE}
 
-
-
 unique_ships1 <-voyages %>% 
            select (shipname, tonnage, placreg, yrreg) %>%
            distinct(shipname, tonnage) %>%
-           filter (!is.na(tonnage == TRUE)) %>%
            arrange(shipname)
 
-
-unique_ships2<-voyages %>% 
-           select (shipname, tonnage, placreg, yrreg, ptdepimp) %>%
-           distinct(shipname, placreg, yrreg) %>%
-           filter (!is.na(tonnage == TRUE), !is.na(placreg == TRUE), ptdepimp =="Nantes") %>%
-           arrange(shipname)
-
-
-
-
-uniques2 <-unique_ships1  %>% 
-group_by (shipname) %>% 
-summarise( n=n())
-uniques2
-
-  
-
-
-
-di <- data_small1 %>%
-      filter (ptdepimp == "Nantes")
-      distinct(shipname)
 ````
 
 
