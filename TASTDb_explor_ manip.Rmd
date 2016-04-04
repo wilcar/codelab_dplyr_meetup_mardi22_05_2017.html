@@ -56,7 +56,7 @@ library (stringr)
 * https://stat545-ubc.github.io/block010_dplyr-end-single-table.html
 
 
-### valeurs manquantes
+### Données manquantes
 
 * http://www.statmethods.net/input/missingdata.html
 
@@ -124,8 +124,8 @@ str(voyages)
 
 ### Les facteurs
 
-Un  *facteur (factor)* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif.   
-Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités*. Dans **R**, les  *levels* correspondent aux modalités d'un caractère.  
+Un  *facteur (factor)* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif (ou catégoriel).   
+Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités* ou  *levels* dans **R**.  
 L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels() ou unique() {base}*. 
 
 ````{r eval=FALSE}
@@ -165,7 +165,7 @@ Par défaut, la plupart des fonctions de base (somme, moyenne, minimum, maximum,
 contenant des valeurs manquantes.
 
 
-#### Identification des valeurs manquantes
+#### Identification des données manquantes
 
 La fonction *summary* permet entre autre d'indiquer les effectifs des valeurs manquantes pour chaque variable du tableau de données.
 
@@ -175,7 +175,7 @@ summary (voyages)
 
 ````
 
-Effectifs et fréquences des valeurs manquantes *variable par variable*.
+Effectifs et fréquences des valeurs manquantes *colonne par colonne*.
 
 ```{r eval = FALSE}
 
@@ -396,7 +396,7 @@ alphabet_data <- voyages %>%
 
 #### Cas des caractères qualitatifs
 
-#####  Sélection selon la modalité d'un caractère qualitatif
+#####  Sélection selon la modalité d'un caractère qualitatif (ou catégoriel)
 
 Exemple de la modalité *Nantes*, appartenant au caractère *ptdepimp* (ports de départ des expéditions de traite).
 
