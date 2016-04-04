@@ -8,6 +8,16 @@ output:
     toc: yes
 ---
 
+
+
+
+
+
+
+
+
+
+
 # Préalables
 
 ## Importation des données
@@ -22,20 +32,30 @@ voyages<-read.table("tastdb_105var.csv",
 ```
 
 
-
 ## Références
 
+### R base
+
 * http://blog.datacamp.com/15-easy-solutions-data-frame-problems-r/  
-* https://www.datacamp.com/courses/dplyr-data-manipulation-r-tutorial  
 * http://personal.colby.edu/personal/m/mgimond/RIntro/04_Manipulating_data_tables.html#data-table-description  
-* http://www.r-bloggers.com/imputing-missing-data-with-r-mice-package/  
+
+### Package dplyr
+
 * https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html  
-* https://stat545-ubc.github.io/block010_dplyr-end-single-table.html  
+* https://www.kaggle.com/justmarkham/introducing-kaggle-scripts/introduction-to-dplyr-part-1
+* https://www.kaggle.com/justmarkham/introducing-kaggle-scripts/introduction-to-dplyr-part-2/notebook 
+* https://stat545-ubc.github.io/block010_dplyr-end-single-table.html
+
+
+### valeurs manquantes
+
+* http://www.statmethods.net/input/missingdata.html
 
 
 # Composition du tableau de données *voyages*
 
 Un tableau de données ou *data.frame* constitue une structure de données fondamentale de **R**. Il se compose d'une collection d'objets de différents types (*numeric, factor, character*) de longueurs similaires accessibles par leur indice de position (R: A Language and Environment for Statistical Computing - Reference index, p 159).
+
 
 ## Dimensions du tableau
 
@@ -46,6 +66,7 @@ Un tableau de données est un tableau à deux dimensions. La fonction *dim(){bas
 dim (voyages)
 
 ```
+
 
 ## Désignation et indice de position des colonnes
 
@@ -83,7 +104,6 @@ str(voyages)
 
 ```
 
-
  $ voyageid   : **int**  1 2 3 4 5 6 7 8 9 10 ...  
  $ shipname   : **Factor** w/ 9105 levels "'s-Graveland",..: 6303 8461 6274 893 774 8837 2674 8771 1591 1485 ...  
  $ natinimp   : Factor w/ 8 levels "Denmark / Baltic",..: 6 6 6 6 6 6 6 6 6 6 ...  
@@ -93,8 +113,7 @@ str(voyages)
 * *shipname*: objet de type **Factor**  
 
 
-
-### Les facteurs 
+### Les facteurs
 
 Un  *facteur (factor)* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif.   
 Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités*. Dans **R**, les  *levels* correspondent aux modalités d'un caractère.  
@@ -111,6 +130,7 @@ sort (unique (voyages$ptdepimp))
 
 ````
 
+
 ### Les vecteurs numériques 
 
 Les vecteurs numériques *Integer* ou *numeric* sont des objets utilisés pour stocker les valeurs d'une variable quantitative. 
@@ -122,21 +142,21 @@ head(sort(unique(voyages$yearam)))
 
 ```
 
+
 ### Les Valeurs manquantes
 
 #### Désignation
 
 Dans **R**, les valeurs manquantes sont notées *NA* (not available).
 
+
 #### Remarque
 
 Par défaut, la plupart des fonctions de base (somme, moyenne, minimum, maximum, etc.) n'acceptent pas les variables 
 contenant des valeurs manquantes.
 
+
 #### Identification des valeurs manquantes
-
-Références: http://www.statmethods.net/input/missingdata.html
-
 
 La fonction *summary* permet entre autre d'indiquer les effectifs des valeurs manquantes pour chaque variable du tableau de données.
 
@@ -183,7 +203,6 @@ voyageid    shipname    natinimp    placcons      yrcons     placreg       yrreg
 
 * *shipname*: contient 4,5% de données manquantes. 
 
-
 ```{r eval = FALSE}
 
 # total des données manquantes
@@ -203,7 +222,6 @@ sum(missing_n)
 
 
 # Visualisation des données
-
 ## Visualisation du tableau de données au moyen de la console
 
 ```{r eval = FALSE}
@@ -217,6 +235,7 @@ head (voyages, n=15) # 15 lignes de tête
 
 ```
 
+
 ## Visualisation du tableau de données au moyen de RStudio
 
 Le volet *Environment*, qui liste les objets en mémoire, offre la possibilité d'activer (par un simple clic) l'affichage des tableaux de données dans des onglets dédiés.
@@ -225,8 +244,8 @@ Le volet *Environment*, qui liste les objets en mémoire, offre la possibilité 
 ![Rstudio] (https://github.com/wilfridcariou/The-Trans-Atlantic-Slave-Trade-Db/blob/master/images/rstudio_dfviz.jpg)
 
 
-
 ## Visualisation de la série statistique d'une variable
+
 
 Une série statistique est la suite des observations d'une (ou plusieurs) variable(s), relevés sur les individus d'une population.  
 La visualisation d'une série statistique se réalise par la combinaison *nom du tableau*, opérateur *$*, *nom de la variable*.
@@ -248,16 +267,9 @@ voyages$guns
 
 
 
-
 # Manipulations portant sur le tableau de données
-
-
 ## Manipulation des colonnes 
-
-
 ### Sélection de colonnes
-
-
 #### Sélection en utilisant R-base
 
 La syntaxe employée utilise une notation basée sur l'usage des crochets et des virgules:  
@@ -266,9 +278,7 @@ L'ommission d'un élement permet de sélectionner une ligne ou une colonne entie
 [,colonnes]   
 [lignes,]  
 
-
 * Le mode le plus simple de sélection consiste à indiquerla position d'index des colonnes à conserver. 
-
 
 ````{r eval=FALSE}
 
@@ -300,9 +310,6 @@ handld_columns3 <- voyages[,-10]
 
 #### Sélection de colonnes en utilisant la fonction select(){dplyr} 
 
-
-
-
 ````{r eval=FALSE}
 
 library (dplyr)
@@ -321,21 +328,19 @@ handld_columns5 <- voyages %>%
                         select(1:10)
 
 
-# Suppression des colonnes 11 à 105
+# Sélection de l'ensemble dess colonnes, expectées la colonne 11
 handld_column6 <- voyages %>%
-                        select(-(11 :105))
+                        select(-(11))
 
 ````
 
 
 ### Réagencement des colonnes du tableau de données
-
 #### Réagencement colonne/colonne
-
 ##### Réagencement en utilisant la fonction *combine* et la notation crochet {base}
 
-
 ```{r eval=FALSE}
+
 # Exemple du déplacement de la colonne  yearam à la seconde position du tableau
 
 
@@ -350,14 +355,15 @@ handld_column7a- (voyages[,c(1,54,2:105)])
 # Suppression de la colonne yearam intiale se situant désormais en 55e position
 handld_column7b- (voyages[,-55])
 
-
 ```
 
 
 ##### Réagencement en utilisant la fonction select(){dplyr} 
 
+* Les réagencements effectués ne "doublonnent pas les colonnes" déplacées.  
+* Des fonctions complémentaires facilitent la sélection des colonnesdans certains cas (dplyr spreadsheet, https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+
 ```{r eval=FALSE}
-# Ne "doublonne pas la colonne" déplacée
 
 handld_column8a <- voyages %>%
                 select(1,54,2:105)
@@ -365,23 +371,10 @@ handld_column8a <- voyages %>%
 handld_column8a <- voyages %>%
                 select(1,yearam,2:105)
 
-````
-
-
-##### Fonction *select* : outils sp?ciaux
-
-Outils simplificateurs (documentation : dplyr sheat sheet)
-
-```{r eval = FALSE}
-
-eg_handld_column<- voyages %>%
-                   select(starts_with(owner))
-
 ```
 
 
-
-#### R?agencement selon un tri alphab?tique des noms de colonnes
+#### Régencement des colonnes selon l'ordre alphabétique par la combinaison des fonctions select(){dplyr} et order(){base}
 
 ```{r eval = FALSE}
 
@@ -390,77 +383,36 @@ alphabet_data <- voyages %>%
 
 ```
 
-* fonction order {base}
-* fonction colnames {base}
-* signe point: n'importe quel caract?re?
+
+##  Sélection des lignes
+### Sélection selon la modalité d'un caractère qualitatif
+
+Exemple de la modalité *Nantes*, appartenant au caractère *ptdepimp* (ports de départ des expéditions de traite).
 
 
-r?f?rence: stack overflow: Dplyr order columns aphabetically in R
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-************************************************************************************************************************
-##  S?lection des lignes
-
-
-
-### S?lection selon une modalit? appartenant ? un caract?re 
-
-Exemple de la modalit? *Nantes*, appartenant au caract?re *ptdepimp* (ports de d?part des exp?ditions de traite).
-
-
-
-#### S?lection de lignes, notation crochet et fonction *subset* (R base) 
+#### Notation crochet et fonction subset() {base} 
 
 ````{r eval=FALSE}
 
-# Aper?u des modalit?s de la variable ptdepimp
-levels (dataR1$ptdepimp) 
+nantessub1 <- subset(voyages, ptdepimp=="Nantes")
 
-
-# Indexation: la syntaxe suit une notation crochet
-eg1_nantes <- voyages[voyages$ptdepimp=="Nantes",]
-
-
-# Visualisation
-utils::View  (eg_1nantes)
-summary (eg1_nantes$ptdepimp)
-# les valeurs manquantes sont inclues dans l'indexation
-
-
-# proposition 2: l'utilisation fonction subset exclue par d?faut 
-# les valeurs manquantes
-nantesR3 <- subset(voyages, ptdepimp=="Nantes")
-nantesR3
-summary (nantesR3$ptdepimp)
 ````
 
 
-
-####  S?lection de lignes, fonction *filter* (package dplyr)
-
-
+####  Fonction filter(){dplyr}
 
 ````{r eval=FALSE}
 
 nantes <- voyages %>% 
-          filter (ptdepimp == "Nantes")
+               filter (ptdepimp == "Nantes")
+
 ````
 
-### S?lection selon une valeur 
+
+### Sélection selon une valeur quantitative
 
 ````{r eval=FALSE}
+
 library (dplyr)
 
 
@@ -471,7 +423,7 @@ year1789 <- voyages %>%
 ````
 
 
-https://www.kaggle.com/justmarkham/introducing-kaggle-scripts/introduction-to-dplyr-part-2/notebook 
+
 
 ### S?lection selon une combinaison de valeurs appartenant ? une variable
 
