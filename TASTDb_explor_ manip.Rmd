@@ -107,6 +107,8 @@ which(colnames(voyages)=="slaximp")
 
 ## Typage des données
 
+La fonction str(){base} produit un résumé de la structure du tableau de données. 
+
 ```{r eval = FALSE}
 
 str(voyages)
