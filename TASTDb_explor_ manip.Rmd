@@ -43,7 +43,7 @@ library (stringr)
 
 ## Références
 
-### R base
+### Rbase
 
 * http://blog.datacamp.com/15-easy-solutions-data-frame-problems-r/  
 * http://personal.colby.edu/personal/m/mgimond/RIntro/04_Manipulating_data_tables.html#data-table-description  
@@ -76,11 +76,14 @@ dim (voyages)
 
 ```
 
+[1] 34946   105
+
+Le tableau est constitué de 105 colonnes et 34946 lignes.
 
 ## Désignation et indice de position des colonnes
 
-* La fonction *colnames(){base}* est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* de position au sein du tableau. l'indice du premier élément de chaque ligne est signalé dans la marge gauche de la console.   
-* La fonction *wich(){base}* est une fonction primitive de **R** qui permet d'identifier l'indice de position d'un vecteur (d'une colonne) en fonction de son nom (Desgraupes, 2013, p10).  
+* La fonction *colnames{base}* est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* de position au sein du tableau. l'indice du premier élément de chaque ligne est signalé dans la marge gauche de la console.   
+* La fonction *wich{base}* est une fonction primitive de **R** qui permet d'identifier l'indice de position d'un vecteur (d'une colonne) en fonction de son nom (Desgraupes, 2013, p10).  
 * RStudio affiche également de manière interactive la position de chaque colonne du tableau de données.  
 
 ```{r eval = FALSE}
@@ -107,7 +110,7 @@ which(colnames(voyages)=="slaximp")
 
 ## Typage des données
 
-La fonction str(){base} produit un résumé de la structure du tableau de données. 
+La fonction str{base} produit un résumé de la structure du tableau de données. 
 
 ```{r eval = FALSE}
 
@@ -132,7 +135,7 @@ L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de l
 
 ````{r eval=FALSE}
 
-ports de départ des expéditions de traite 
+# ports de départ des expéditions de traite 
 levels (voyages$ptdepimp) # classement des modalités par ordre alphabétique
 unique (voyages$ptdepimp) # absence de classement
 
@@ -281,7 +284,7 @@ voyages$guns
 # Manipulations portant sur le tableau de données
 ## Manipulation des colonnes 
 ### Sélection de colonnes
-#### Sélection de colonnes en utilisant {base}
+#### Sélection de colonnes en utilisant **R-base**
 
 La syntaxe employée utilise une notation basée sur l'usage des crochets et des virgules:  
 [lignes,colonnes]   
@@ -319,7 +322,7 @@ handld_columns3 <- voyages[,-10]
 ```
 
 
-#### Sélection de colonnes en utilisant la fonction select(){dplyr} 
+#### Sélection de colonnes en utilisant la fonction select{dplyr} 
 
 ````{r eval=FALSE}
 
@@ -345,7 +348,7 @@ handld_columns6 <- voyages %>%
 
 
 ### Réagencement des colonnes du tableau de données
-#### Réagencement en utilisant la fonction *combine* et la notation crochet {base}
+#### Réagencement en utilisant la fonction *combine{base}* et la notation crochet.
 
 ```{r eval=FALSE}
 
@@ -366,7 +369,7 @@ handld_columns7b- (voyages[,-55])
 ```
 
 
-#### Réagencement en utilisant la fonction select(){dplyr} 
+#### Réagencement en utilisant la fonction select{dplyr} 
 
 * Les réagencements effectués ne "doublonnent pas les colonnes" déplacées.  
 * Des fonctions complémentaires facilitent la sélection des colonnesdans certains cas (dplyr spreadsheet, https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
@@ -403,7 +406,7 @@ alphabet_data <- voyages %>%
 Exemple de la modalité *Nantes*, appartenant au caractère *ptdepimp* (ports de départ des expéditions de traite).
 
 
-###### Notation crochet et fonction subset() {base} 
+###### Notation crochet et fonction subset{base} 
 
 ````{r eval=FALSE}
 
@@ -412,7 +415,7 @@ nantessub1 <- subset(voyages, ptdepimp=="Nantes")
 ````
 
 
-###### Fonction filter(){dplyr}
+###### Fonction filter{dplyr}
 
 ````{r eval=FALSE}
 
@@ -524,7 +527,7 @@ nante_db <- voyages %>%
 
 ## Tri 
 
-Dplyr fait appel à la fonction *arrange*.  L'argument par défaut est un classement par ordre croissant. Pour un classement par ordre décroissant, l'utilisation de l'argument *desc()* est recquise.
+Dplyr fait appel à la fonction *arrange*. L'argument par défaut est un classement par ordre croissant. Pour un classement par ordre décroissant, l'utilisation de l'argument *desc"t recquise.
 
 ```{r eval=FALSE}
 
@@ -539,31 +542,24 @@ datachrono <- voyages %>%
 ## Recherche de combinaisons uniques: exemple de l'identification des navires
 
 
-Identification des navires un et un tonnage similaire
-
-
-* YRCONS Year of vessel's construction  
-* PLACCONS Place where vessel constructed  
-* YRREG Year of vessel's registration  
- PLACREG Place where vessel registered  
-
+Identification des navires caractrisés par un nom et un tonnage similaire.
 
 ```{r eval = FALSE}
 
 unique_ships1 <-voyages %>% 
-           select (shipname, tonnage, placreg, yrreg) %>%
-           distinct(shipname, tonnage) %>%
-           arrange(shipname)
+                 distinct(shipname, tonnage) %>%
+                 arrange(shipname)
 
 ````
 
 
 ## Ommission des données manquantes
 
+L'omission, des données manquante s'effectue à la l'aide la fonction complete.cases {stats}
 ```{r eval = FALSE}
 
-
-df %>% filter(complete.cases(1:12,27:88))
+non_na <-  voyages %>%
+                  filter(complete.cases(guns))
 
 ```
 
