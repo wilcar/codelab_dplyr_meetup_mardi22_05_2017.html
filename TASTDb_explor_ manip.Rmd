@@ -565,7 +565,7 @@ unique_ships1 <-voyages %>%
 ````
 
 
-## Ommission des données manquantes
+## Omission des données manquantes
 
 L'omission des données manquantes s'effectue à la l'aide la fonction complete.cases {stats}
 ```{r eval = FALSE}
