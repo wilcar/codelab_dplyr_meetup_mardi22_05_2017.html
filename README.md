@@ -2,8 +2,15 @@
 
 Licence: Creative Commons Attribution-Noncommercial 
 
-Source des données: 
+## Source des données: 
 Voyages Database. 2009. Voyages: The Trans-Atlantic Slave Trade Database. http://www.slavevoyages.org 
+
+### Sonnées historiques
+Domaine publique 	
+Voyages Database. 2009. Voyages: The Trans-Atlantic Slave Trade Database. http://www.slavevoyages.org (Accès 1er janvier 2015).
+
+#### Données subsituées (Imputed data)
+(indiquées par un asterisque *:  licence Creative Commons Attribution-Noncommercial 3.0 United States License.
 
 
 ## Fichiers
