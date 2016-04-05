@@ -2,8 +2,10 @@
 title: "Exploration et manipulation du tableau de données *Voyages*"
 author: "Wilfrid Cariou"
 date: "20 décembre 2015"
-output: 
-  html_document: 
+output:
+  word_document:
+    toc: yes
+  html_document:
     number_sections: yes
     toc: yes
 ---
@@ -131,7 +133,7 @@ str(voyages)
 
 Un  *facteur (factor)* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif (ou catégoriel).   
 Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités* ou  *levels* dans **R**.  
-L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels() ou unique {base}*. 
+L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels ou unique {base}*. 
 
 ````{r eval=FALSE}
 
@@ -165,8 +167,8 @@ Dans **R**, les valeurs manquantes sont notées *NA* (not available).
 
 
 #### Remarque
-
-Par défaut, la plupart des fonctions de base (somme, moyenne, minimum, maximum, etc.) n'acceptent pas les variables 
+()
+Par défaut, la plupart des opérations de base somme, moyenne, minimum, maximum, etc.) n'acceptent pas les variables 
 contenant des valeurs manquantes.
 
 
@@ -196,8 +198,8 @@ missing_n # affichage dans la console
    voyageid    shipname    natinimp    placcons      yrcons     placreg       yrreg  
           0        1594        1529       26058       28757       27718       30431      
           
-* Le vecteur  *voyageid*: ne contient pas de données manquantes.  
-* *shipname*: contient 1594 données manquantes. 
+* *voyageid* ne contient pas de données manquantes.  
+* *shipname* contient 1594 données manquantes. 
 
 
 ```{r eval = FALSE}
@@ -401,7 +403,7 @@ alphabet_data <- voyages %>%
 
 #### Cas des caractères qualitatifs
 
-#####  Sélection selon la modalité d'un caractère qualitatif (ou catégoriel)
+##### Sélection selon la modalité d'un caractère qualitatif (ou catégoriel)
 
 Exemple de la modalité *Nantes*, appartenant au caractère *ptdepimp* (ports de départ des expéditions de traite).
 
@@ -443,7 +445,7 @@ ports_identified <- voyages %>%
 
 ##### Sélection selon une combinaison de modalités appartenant à un caractère
 
-La sélection selon une combinaison de modalités appartenant à un caractère s'effectue par une expression régulière introduite par une fonction d'identification et utilisant le signe | (barre verticale) comme opérateur d'alternation.
+La sélection s'effectue par une expression régulière introduite par une fonction d'identification et utilisant le signe | (barre verticale) comme opérateur d'alternation.
 
 
 * Recherche d'un motif comportant une alternation  
@@ -458,7 +460,7 @@ str_detect (voyages$ptdepimp, "Bristol|London") # package stringr
 
 ````
 
-* combinaison des fonctions filter et des fonctions d'identification de motif  
+* Combinaison des fonctions filter et des fonctions d'identification de motif  
 
 ````{r eval = FALSE}
 
@@ -527,7 +529,7 @@ nante_db <- voyages %>%
 
 ## Tri. Fonction arrange {dplyr}
 
-Dplyr fait appel à la fonction *arrange*  pour trier le contenu des colonnes du talbeau de données. Cette dernière classe les valeurs par ordre croissant et les modalités par ordre alphabétique. Un classement par ordre décroissant s'obtient par l'ajout de l'argument *desc*.
+Dplyr fait appel à la fonction *arrange*  pour trier le contenu des colonnes du tableau de données. Cette dernière classe les valeurs par ordre croissant et les modalités par ordre alphabétique. Un classement par ordre décroissant s'obtient par l'ajout de l'argument *desc*.
 
 ```{r eval=FALSE}
 
