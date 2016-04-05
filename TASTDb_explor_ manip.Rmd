@@ -239,7 +239,7 @@ sum(missing_n)
 
 
 
-# Visualisation des données
+# Visualisation des données du tableau *voyages*
 ## Visualisation du tableau de données au moyen de la console
 
 ```{r eval = FALSE}
@@ -285,7 +285,7 @@ voyages$guns
 
 
 
-# Manipulations portant sur le tableau de données
+# Manipulations du tableau de données *voyages*
 ## Manipulation des colonnes 
 ### Sélection de colonnes
 #### Sélection de colonnes en utilisant **R-base**
