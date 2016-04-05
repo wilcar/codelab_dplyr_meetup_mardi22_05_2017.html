@@ -1,4 +1,4 @@
-# Outils et méthodes d'exploration et d'analsyse de la base de données The Trans-Atlantic-Slave-Trade-Database 
+# Outils et méthodes d'exploration et d'analyse de la base de données The Trans-Atlantic-Slave-Trade-Database 
 
 Auteur: Wilfrid Cariou  
 Licence: Creative Commons Attribution-Noncommercial 
