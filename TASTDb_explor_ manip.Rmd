@@ -82,8 +82,8 @@ dim (voyages)
 
 ## Désignation et indice de position des colonnes
 
-* La fonction *colnames{base}* est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* de position au sein du tableau. l'indice du premier élément de chaque ligne est signalé dans la marge gauche de la console.   
-* La fonction *wich{base}* est une fonction primitive de **R** qui permet d'identifier l'indice de position d'un vecteur (d'une colonne) en fonction de son nom (Desgraupes, 2013, p10).  
+* La fonction *colnames {base}* est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* de position au sein du tableau. l'indice du premier élément de chaque ligne est signalé dans la marge gauche de la console.   
+* La fonction *wich {base}* est une fonction primitive de **R** qui permet d'identifier l'indice de position d'une colonne en fonction de son nom (Desgraupes, 2013, p10).  
 * RStudio affiche également de manière interactive la position de chaque colonne du tableau de données.  
 
 ```{r eval = FALSE}
@@ -525,15 +525,23 @@ nante_db <- voyages %>%
 
 ```
 
-## Tri 
+## Tri. Fonction arrange {dplyr}
 
-Dplyr fait appel à la fonction *arrange*. L'argument par défaut est un classement par ordre croissant. Pour un classement par ordre décroissant, l'utilisation de l'argument *desc"est recquise.
+Dplyr fait appel à la fonction *arrange*  pour trier le contenu des colonnes du talbeau de données. Cette dernière classe les valeurs par ordre croissant et les modalités par ordre alphabétique. Un classement par ordre décroissant s'obtient par l'ajout de l'argument *desc*.
 
 ```{r eval=FALSE}
 
-# Classement des expéditions en fonction de l'année de débarquement des esclaves
+# Classement  en fonction de l'année de débarquement des esclaves
 datachrono <- voyages %>%
                 arrange (yearam)
+
+# Classement  en fonction du nom des navires
+shipnames<- voyages %>%
+                arrange (shipname)
+
+# Classement  en fonction de l'année du nombre d'esclaves embarqués
+slaves_emb<- voyages %>%
+                arrange (desc(slaximp))
 
 ```
 
@@ -555,7 +563,7 @@ unique_ships1 <-voyages %>%
 
 ## Ommission des données manquantes
 
-L'omission, des données manquantes s'effectue à la l'aide la fonction complete.cases {stats}
+L'omission des données manquantes s'effectue à la l'aide la fonction complete.cases {stats}
 ```{r eval = FALSE}
 
 non_na <-  voyages %>%
