@@ -558,18 +558,11 @@ unique_ships1 <-voyages %>%
 ````
 
 
-Selection NA NON NA
+## Ommission des données manquantes
 
 ```{r eval = FALSE}
-colnames (tst_db)      
-tst_db_complete <- tst_db %>%
-                   filter(!is.na(1:10) = TRUE)    
-                   
-tst_db_complete
 
-# Or a little more general:
 
-library(dplyr) # 0.4
 df %>% filter(complete.cases(1:12,27:88))
 
 ```
