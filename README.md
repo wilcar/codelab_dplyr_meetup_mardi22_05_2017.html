@@ -1,4 +1,4 @@
-# R Outils et méthodes d'exploration et d'analsyse de la base de données The Trans-Atlantic-Slave-Trade-Database 
+# Outils et méthodes d'exploration et d'analsyse de la base de données The Trans-Atlantic-Slave-Trade-Database 
 
 Licence: Creative Commons Attribution-Noncommercial 
 
