@@ -78,7 +78,7 @@ dim (voyages)
 
 [1] 34946   105
 
-Le tableau est constitué de 105 colonnes et 34946 lignes.
+* Le tableau est constitué de 105 colonnes et 34946 lignes.
 
 ## Désignation et indice de position des colonnes
 
@@ -131,7 +131,7 @@ str(voyages)
 
 Un  *facteur (factor)* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif (ou catégoriel).   
 Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités* ou  *levels* dans **R**.  
-L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels() ou unique() {base}*. 
+L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels() ou unique {base}*. 
 
 ````{r eval=FALSE}
 
@@ -322,7 +322,7 @@ handld_columns3 <- voyages[,-10]
 ```
 
 
-#### Sélection de colonnes en utilisant la fonction select{dplyr} 
+#### Sélection de colonnes en utilisant la fonction select {dplyr} 
 
 ````{r eval=FALSE}
 
@@ -348,7 +348,7 @@ handld_columns6 <- voyages %>%
 
 
 ### Réagencement des colonnes du tableau de données
-#### Réagencement en utilisant la fonction *combine{base}* et la notation crochet.
+#### Réagencement en utilisant la fonction *combine {base}* et la notation crochet.
 
 ```{r eval=FALSE}
 
@@ -369,7 +369,7 @@ handld_columns7b- (voyages[,-55])
 ```
 
 
-#### Réagencement en utilisant la fonction select{dplyr} 
+#### Réagencement en utilisant la fonction select {dplyr} 
 
 * Les réagencements effectués ne "doublonnent pas les colonnes" déplacées.  
 * Des fonctions complémentaires facilitent la sélection des colonnesdans certains cas (dplyr spreadsheet, https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
@@ -415,7 +415,7 @@ nantessub1 <- subset(voyages, ptdepimp=="Nantes")
 ````
 
 
-###### Fonction filter{dplyr}
+###### Fonction filter {dplyr}
 
 ````{r eval=FALSE}
 
@@ -527,7 +527,7 @@ nante_db <- voyages %>%
 
 ## Tri 
 
-Dplyr fait appel à la fonction *arrange*. L'argument par défaut est un classement par ordre croissant. Pour un classement par ordre décroissant, l'utilisation de l'argument *desc"t recquise.
+Dplyr fait appel à la fonction *arrange*. L'argument par défaut est un classement par ordre croissant. Pour un classement par ordre décroissant, l'utilisation de l'argument *desc"est recquise.
 
 ```{r eval=FALSE}
 
@@ -555,7 +555,7 @@ unique_ships1 <-voyages %>%
 
 ## Ommission des données manquantes
 
-L'omission, des données manquante s'effectue à la l'aide la fonction complete.cases {stats}
+L'omission, des données manquantes s'effectue à la l'aide la fonction complete.cases {stats}
 ```{r eval = FALSE}
 
 non_na <-  voyages %>%
