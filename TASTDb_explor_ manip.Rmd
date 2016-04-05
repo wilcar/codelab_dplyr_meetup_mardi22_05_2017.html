@@ -36,9 +36,11 @@ voyages<-read.table("tastdb_105var.csv",
 ## Appel des packages
 
 ```{r eval = FALSE}
+# A Grammar of Data Manipulation
+library (dplyr) # 0.4.3 
 
-library (dplyr)
-library (stringr)
+# Simple, Consistent Wrappers for Common String Operations
+library (stringr)# 1.0.0. 
 
 ```
 
@@ -527,7 +529,7 @@ nante_db <- voyages %>%
 
 ```
 
-## Tri. Fonction arrange {dplyr}
+## Tri, fonction arrange {dplyr}
 
 Dplyr fait appel à la fonction *arrange*  pour trier le contenu des colonnes du tableau de données. Cette dernière classe les valeurs par ordre croissant et les modalités par ordre alphabétique. Un classement par ordre décroissant s'obtient par l'ajout de l'argument *desc*.
 
@@ -552,7 +554,7 @@ slaves_emb<- voyages %>%
 ## Recherche de combinaisons uniques: exemple de l'identification des navires
 
 
-Identification des navires caractrisés par un nom et un tonnage similaire.
+Identification des navires caractérisés par un nom et un tonnage similaires.
 
 ```{r eval = FALSE}
 
