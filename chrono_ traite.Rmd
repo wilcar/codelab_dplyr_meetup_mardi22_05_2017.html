@@ -4,10 +4,10 @@ title: 'The Trans-Atlantic Slave Trade Database, éléments de périodisation de
 author: "w cariou ufr HHAU Université de Nantes"
 date: "Wednesday, June 03, 2015. 10/03/16"
 output:
-  word_document:
-    toc: yes
   html_document:
     number_sections: yes
+    toc: yes
+  word_document:
     toc: yes
 ---
 
@@ -81,8 +81,6 @@ duration  # Affichage
 
 ## Distribution chronologique des expéditions de traite atlantique selon les années
 
-* Tableau statistique
-
 ```{r  eval = FALSE}
 
 
@@ -96,13 +94,16 @@ n_voyages <- voyages %>%
 
 ### Chronologie de la traite complétée par les années d'interruption du trafic
 
-```{r}
+```{r eval = FALSE}
+
 range <- data.frame (yearam = c(1514:1866)) 
-range
+
+range # Affichage dans la console
 
 
 complete_n_voyages <- left_join(range, n_voyages)
-complete_n_voyages
+
+complete_n_voyages # Affichage dans la console
 
 
 ```
@@ -146,18 +147,17 @@ total/duration
 ```{r  eval = FALSE}
 
 # 1ere version
-chrono_slaves1
-<- voyages %>%
+chrono_slaves <- voyages %>%
                    group_by (yearam) %>%
-                   summarise (esclaves = sum(slaximp))
+                   summarise (slaves = sum(slaximp))
 
 # Les résultats posent problème...
 
-# 2nde version
+# 2nde version 
 chrono_slaves <- voyages %>%
                    filter(complete.cases(slaximp)) %>%
                    group_by (yearam) %>%
-                   summarise (esclaves = sum(slaximp))
+                   summarise (slaves = sum(slaximp))
 
 ```
 
@@ -172,7 +172,7 @@ chrono_slaves <- voyages %>%
 
 # Exploration de la chronologie de la traite à l'aide: représentations graphiques
 
-## Représentations graphiques élementaires, R-base
+## Représentations graphiques élementaires par l'intermédiaire de R-base
 
 ```{r  eval = FALSE}
 
@@ -209,9 +209,9 @@ basic_chart_chrono3 <- plot(complete_n_voyages, t="s",
 ```
 
 
-## Représentations graphiques avancées, package ggplot2
+## Représentations graphiques avancées par l'intermédiaire du package ggplot2
 
-```{r}
+```{r eval = FALSE}
 
 library (ggplot2)
 
@@ -305,7 +305,6 @@ https://danieljhocking.wordpress.com/2014/12/03/lags-and-moving-means-in-dplyr/
 
 ```{r eval=FALSE}
 
-library (dplyr)
 library (zoo)
 
 nvymobile <- 
@@ -322,11 +321,16 @@ http://www.inside-r.org/packages/cran/zoo/docs/rollapply
 
 
 ## Représentations graphiques interactives 
-### Package GoogleVis
+### Package googleVis
 
-```{r  eval = FALSE}
+```{r}
 
 library (googleVis)
+
+```
+
+
+```{r  eval = FALSE}
 
 complete_n_voyages_rename <- complete_n_voyages %>%
                       rename(voyages = n)
@@ -338,9 +342,12 @@ gvis_chrono1 <- gvisLineChart(complete_n_voyages_rename,
                               title="Trans-Atlantic slave trade voyages (yearam variable)",
                               vAxis="{title:''}",
                               width=1500, height=600))
+
 plot (gvis_chrono1)
 
+````
 
+```{r}
 
 gvis_chrono2 <- gvisColumnChart(complete_n_voyages2-rename,
 options=list(
@@ -354,11 +361,11 @@ plot(gvis_chrono2)
 
 # Périodisation de la traite
 
-Lorsque presque tous les individus possèdent des valeurs différentes, on peut procéder à un regroupement par classes des valeurs observées afin d'en faciliter la lecture, l'analyse et interprétation. Le découpage en classes d'une population selon un ou plusieurs critères est une opération appelée *discrétisation*.
-
+Lorsque presque tous les individus étudiés sont caractérisés par des valeurs différentes, on peut procéder à leur regroupement dans des intervales de valeurs appelés classes afin de faciliter la lecture, l'analyse et interprétation des données.  
+Le découpage en classes d'une population est une opération appelée *discrétisation*.
 Cette transformation engendre une perte d'information. Par conséquent, le processus de partition en classes (définition des limites de classes, étendue des classes, nombre de classes, etc.), qui comporte nécessairement une part d'arbitraire, revêt une grande importance. (Sède-Marceau, 2010; Saly-Giocanty, 2005, p.31)
-Une classe est un intervalle de valeurs ue peut prendre le le caractère quantitatif étudié.
-L'amplitude d'une classe est la longueur de l'intervalle de valeurs. Les classes peuvent être d'amplitudes différentes. (math en poche 2nde)
+* Une classe est un intervalle de valeurs ue peut prendre le le caractère quantitatif étudié.  
+* L'amplitude d'une classe est la longueur de l'intervalle de valeurs. Les classes peuvent être d'amplitudes différentes.  
 
 ```{r  eval=FALSE}
 
