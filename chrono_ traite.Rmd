@@ -59,6 +59,7 @@ chrono_voyages <- voyages %>%
 ```
 
 # Exploration de la chronologie de la traite à l'aide de tables et de résumés statistiques
+
 ##  Bornes chronologiques et durée de la traite
 
 ```{r  eval = FALSE}
@@ -110,7 +111,7 @@ Références: https://stat545-ubc.github.io/bit001_dplyr-cheatsheet.html#left_jo
 LEFT JOIN (ou LEFT OUTER JOIN) : jointure externe pour retourner tous les enregistrements de la table de gauche (LEFT = gauche) même si la condition n’est pas vérifié dans l’autre table.
 
 
-### Identification des années d'interruption de la traite                
+### Identification des années d'interruption de la traite 
 
 ```{r  eval = FALSE}
 
@@ -129,7 +130,7 @@ nrow (no_voyages)
 ```
 
 
-##  Nombre moyen des expéditions de traite par année {base}
+##  Nombre moyen des expéditions de traite par année 
 
 ```{r  eval = FALSE}
 
@@ -169,9 +170,9 @@ chrono_slaves <- voyages %>%
 
 
 
-# Représentations graphiques
+# Exploration de la chronologie de la traite à l'aide: représentations graphiques
 
-## Représentations graphiques élementaires {base}
+## Représentations graphiques élementaires, R-base
 
 ```{r  eval = FALSE}
 
@@ -208,7 +209,7 @@ basic_chart_chrono3 <- plot(complete_n_voyages, t="s",
 ```
 
 
-## ## Représentations graphiques avancées {ggplot2}
+## Représentations graphiques avancées, package ggplot2
 
 ```{r}
 
@@ -218,7 +219,7 @@ library (ggplot2)
 
 ### Représentation graphique en courbe
 
-```{r  eval = FALSE}
+```{r eval = FALSE}
 
 ggplot_line_chrono <- ggplot (complete_n_voyages, aes(x=yearam, y=n))  
 ggplot_line_chrono +
@@ -249,7 +250,7 @@ ggplot_steps_chrono  +
             annotate("text", x = 1880, y = 120, label="The Trans-Atlantic Slave Trade Database (2010) variable yearam", size = 4, angle = 90) 
 ```
 
-### ### Représentations graphiques en bâtons
+### Représentations graphiques en bâtons
 
 ```{r eval=FALSE}
 
@@ -269,7 +270,7 @@ ggplot_barplot_chrono1 +
 ````
 
 
-```{r}
+```{r eval = FALSE}
 
 # Proposition 2
 ##  remplissage des bâtons/ dégradé proportionnel aux effectifs
@@ -292,8 +293,6 @@ ggplot_barplot_chrono2 +
 ````
 
 
-réfécences
-
 http://yohann.feneche.free.fr/lissage_mm.php
 http://stackoverflow.com/questions/13840761/add-moving-average-plot-to-time-series-plot-in-r
 http://www.princeton.edu/~jswaters/site/Notes/Entries/2013/9/9_R__Plotting_time_series_data.html
@@ -302,11 +301,10 @@ https://danieljhocking.wordpress.com/2014/12/03/lags-and-moving-means-in-dplyr/
 
 ```
 
-##  Creation d'un data.frame de moyenne mobile
-
-
+### Calcul et ajout d'une moyenne mobile
 
 ```{r eval=FALSE}
+
 library (dplyr)
 library (zoo)
 
@@ -315,23 +313,19 @@ nvymobile <-
   group_by(yearam)  %>% 
   summarise(y = n()) %>%
   mutate (moyennemobile=rollmean(x=y,5, align="right", fill=0 )) 
-utils :: View (nvymobile)
 
 ````
-
-fill: moyenne d'anterieure donc par quoi remplacer les valerus non prises ne compte NA 0?
 
 
 http://stackoverflow.com/questions/23619855/constructing-moving-average-over-a-categorical-variable-in-r
 http://www.inside-r.org/packages/cran/zoo/docs/rollapply
 
 
-
-
-### {GoogleVis}
-
+## Représentations graphiques interactives 
+### Package GoogleVis
 
 ```{r  eval = FALSE}
+
 library (googleVis)
 
 complete_n_voyages_rename <- complete_n_voyages %>%
@@ -345,6 +339,7 @@ gvis_chrono1 <- gvisLineChart(complete_n_voyages_rename,
                               vAxis="{title:''}",
                               width=1500, height=600))
 plot (gvis_chrono1)
+
 
 
 gvis_chrono2 <- gvisColumnChart(complete_n_voyages2-rename,
