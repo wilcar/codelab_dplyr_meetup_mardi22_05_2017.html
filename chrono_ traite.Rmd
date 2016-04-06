@@ -1,0 +1,563 @@
+---
+title: 'The Trans-Atlantic Slave Trade Database, éléments de périodisation de la traite
+  occidentale atlantique '
+author: "w cariou ufr HHAU Université de Nantes"
+date: "Wednesday, June 03, 2015. 10/03/16"
+output:
+  word_document:
+    toc: yes
+  html_document:
+    number_sections: yes
+    toc: yes
+---
+
+
+********************************************************************************
+
+Les séries chornologiques chroniques ou encore séries temporelles sont des distributions statistiques qui décrivent de manière chiffrée des phénomènes repérés dans le temps. (Py, 2013).
+Les modalités du caractère $x$ que l'on appele dans un tableau statistique $x_i$ deviennent ici $t_i$. ($t$: temps).
+Les effectifs sont représentés par le symbole $y$ pour montrer la différentiation avec $n_i$.
+Le tableau de référence ne sera plus du type {$x_i,n_i$} mais {$t_i,y_i$}.
+
+# Données
+
+## Sélection d'un répertoire de travail (*working directory*)
+
+- WD (PC bureau)
+
+```{r eval=FALSE}
+setwd("D:/Documents/Cariou-w/Documents/HHAAUN/R Cariou") # défini un répertoire de travail
+
+```
+
+- WD (PC domicile)
+
+```{r eval=FALSE}
+setwd("E:/hubiC/HHAAUN/R Cariou")
+
+```
+
+
+- WD (PC portable)
+
+```{r  eval = FALSE}
+setwd("C:/Users/CARIOU-w/Documents/the TransAtlantic Slave Trade database/TSTDatabase R Projets S2_2015")
+
+```
+
+## Importation des données au format *csv*
+
+```{r  eval = FALSE}
+
+voyages<-read.table("databig_ansi.csv",
+                    header=TRUE, sep=",",
+                    na.strings="",
+                    quote = "\"",
+                    dec=".", encoding = "latin1") 
+
+```
+
+
+## Des les données temporelles au sein de la TSTDb
+
+variable yearam
+http://www.slavevoyages.org/voyage/understanding-db/methodology-7
+
+
+## Classement chronologique des expéditions de traite
+
+Classement: fonction arrange {dplyr}
+```{r eval = FALSE, message= FALSE, warning= FALSE}
+
+library (dplyr)
+chrono_voyages <- voyages %>%
+                  select(1,yearam, 2:105) %>%
+                 arrange(yearam)  
+    
+```
+
+Visualisation html {Rmarkdown}
+
+```{r  eval = FALSE}
+library (knitr)
+kable (head (chrono_voyages, 5))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+# Exploration de la chronologie de la traite à l'aide de tables et de résumés statistiques
+
+##  Bornes chronologiques et durée de la traite
+
+Quelles bornent chronologiques encadrent la traite occidentale et quelle est la durée de ce cette dernière ? 
+
+En statistique, on parle d'étendue c'est à dire la différence entre la valeur la plus élevée et la valeur la moins élevée d'une variable.
+
+
+```{r  eval = FALSE}
+
+# Première mention d'une expédition de traite
+ymin = min(voyages$yearam) 
+ymin  # print
+
+# Dernière mention d'une expédition de traite
+ymax = max (voyages$yearam)
+ymax  # print
+
+# Etendue
+duration <-  ymax-ymin
+duration  # print
+
+```
+
+
+
+
+```{r  eval = FALSE}
+voyages_yearam <-  voyages %>%
+                select (1,54, 2:105) %>%
+                arrange (yearam)
+```
+
+
+## Distribution chronologique des expéditions de traite atlantiques selon les années
+
+* Tableau statistique {dplyr}
+
+```{r  eval = FALSE}
+
+
+n_voyages <- voyages %>%
+                  count (yearam)
+
+```
+
+* Visualisation html {Rmarkdown}
+
+```{r  eval = FALSE}
+library (knitr)
+kable (chrono_voyages1)
+```
+
+## Les interruptions de la traite
+
+### Chronologie de la traite complété par les années d'interruption du trafic
+#### Première approche
+
+* Exploitation des propriétés des objets de classe facteur {base}
+
+Les objet de type *facteur* ont originellement été créé pour contenir des variables qualitatives.
+Ces objets possèdent un attribut appelé niveaux (*levels*) qui définit l'ensemble des valeurs qui peuvent être prises par les éléments du vecteur.
+
+```{r  eval = FALSE}
+
+# La variable yearam est transformée en facteur
+# Ses modalités théoriques sont définies.
+chrono<- factor(voyages$yearam, levels=1514:1866)
+chrono
+
+
+chrono <- as.data.frame(chrono)
+# Création d'un nouveau tableau statistique référencant les années ne comportant
+# pas d'expéditions de traite
+
+chrono_voyages2<-table(chrono) 
+chrono_voyages2
+
+# Conversion en data.frame afin de pouvoir poursuivre la synthèse des données.
+
+chrono_voyages2<- as.data.frame (chrono_voyages2)
+```
+
+
+##### Seconde approche (SQL)
+```{r  eval = FALSE}
+library(dplyr)
+
+range <- data.frame (yearam = c(1514:1866)) 
+range
+
+
+complete_n_voyages <- left_join(range, n_voyages)
+complete_n_voyages
+
+
+```
+https://stat545-ubc.github.io/bit001_dplyr-cheatsheet.html#left_joinsuperheroes-publishers
+
+INNER JOIN : jointure interne pour retourner les enregistrements quand la condition est vrai dans les 2 tables. C’est l’une des jointures les plus communes.
+LEFT JOIN (ou LEFT OUTER JOIN) : jointure externe pour retourner tous les enregistrements de la table de gauche (LEFT = gauche) même si la condition n’est pas vérifié dans l’autre table.
+
+
+* Visualisation html {Rmarkdown}
+
+```{r  eval = FALSE}
+
+library (knitr)
+kable (chrono_voyages2)
+
+```
+
+### Identification des années d'interruption de la traite                
+
+```{r  eval = FALSE}
+
+no_voyages1 <- complete_n_voyages  %>%
+                        filter (! complete.cases(n)) 
+no_voyages1
+
+length (no_voyages1)
+
+```
+
+### Effectif total des années comportant ou non des expéditions de traite
+
+```{r  eval = FALSE}
+chrono_summary <- complete_n_voyages %>%
+                   count (n == 0) 
+chrono_summary 
+
+```
+
+
+##  Nombre moyen des expéditions de traite par année {base}
+
+```{r  eval = FALSE}
+
+complete_n_voyages[is.na(complete_n_voyages)] <- 0
+
+colMeans(complete_n_voyages)
+
+
+complete_n_voyages2 <- complete_n_voyages %>%
+                       select(n) %>%
+                       replace (is.na(.), 0) >
+                       
+                       
+
+colMeans(complete_n_voyages2)
+
+
+
+```
+
+
+## Distributon des effectifs esclaves embarqués en fonction des années
+
+* Tableau statistique {dplyr}
+
+```{r  eval = FALSE}
+
+chrono_slaves1 <- voyages %>%
+                   group_by (yearam) %>%
+                   summarise (esclaves = sum(slaximp))
+
+chrono_slaves1 
+
+# Les résultats posent problème...
+
+
+
+chrono_slaves1 <- voyages %>%
+                  filter(complete.cases(slaximp)) %>%
+                   group_by (yearam) %>%
+                   summarise (esclaves = sum(slaximp))
+
+chrono_slaves1 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Représentations graphiques
+
+
+
+## Représentations graphiques élementaires {base}
+
+La fonction plot a pour propriété de prendre en compte  les années d'interruption de la traite  sans qu'elles figurent pour autant dans la source des données 
+
+```{r  eval = FALSE}
+
+# Représention graphique élementaire 
+
+# source: n_voyages (diagramme en bâton ou tuyaux d'orgue)
+# source: complete_n_voyages (diagramme en courbe)
+
+chart_chronoB1 <- plot(n_voyages) 
+
+# Argument type = "histogram like" 
+
+chart_chronoB2 <- plot(n_voyages, t="h",
+                    main = "Titre",
+                    sub ="Sous-titre",
+                    xlab = "étiquette axe des x",
+                    ylab = "étiquette axe des y") 
+
+# Argument type = "line"
+chart_chronoB3 <- plot(complete_n_voyages, t="l",
+                    main = "Titre",
+                    sub ="Sous-titre",
+                    xlab = "étiquette axe des x",
+                    ylab = "étiquette axe des y")
+                    
+
+# Argument type = "line"
+chart_chronoB3 <- plot(complete_n_voyages, t="h",
+                    main = "Distribution chronologique des expéditions de traite atlantique",
+                    sub ="The Trans-Atlantic Slave Trade Database (variable yearam)",
+                    xlab = "",
+                    ylab = "expéditions")                    
+
+```
+
+
+## {ggplot2}
+### Graphique courbe
+
+```{r  eval = FALSE}
+
+
+
+library (ggplot2)
+
+chart_chronogg1  <- ggplot (complete_n_voyages, aes(x=yearam, y=n))  
+chart_chronogg1 +
+       geom_line () +
+       scale_x_continuous(breaks=seq(1500, 1875, by=25)) +
+      # habillage
+      ylab("expéditions") +                       
+      xlab("années") +
+      theme_bw() +
+      ggtitle ("Distribution chronologique des expéditions de traite atlantique") +
+            annotate("text", x = 1880, y = 100, label="The Trans-Atlantic Slave Trade Database (2010) variable yearam", size = 4, angle = 90)             
+  
+```
+
+### Graphique marche d'éscaliers
+
+```{r  eval = FALSE}
+library (ggplot2)
+
+
+
+chart_chronogg1  <- ggplot (complete_n_voyages, aes(x=yearam, y=n))  
+chart_chronogg1 +
+       geom_step () +
+       scale_x_continuous(breaks=seq(1500, 1875, by=10)) +
+      # habillage
+      ylab("expéditions") +                       
+      xlab("années") +
+      theme_bw() +
+      ggtitle ("Distribution chronologique des expéditions de traite atlantique") +
+            annotate("text", x = 1880, y = 100, label="The Trans-Atlantic Slave Trade Database (2010) variable yearam", size = 4, angle = 90) 
+```
+
+### graphique en bâtons 
+
+```{r eval=FALSE}
+
+# Proposition 1
+
+library (ggplot2)
+
+chart_chronogg3  <- ggplot (complete_n_voyages, aes(x=yearam, y=n))  
+chart_chronogg3 +
+       geom_bar (stat="identity") +
+       scale_x_continuous(breaks=seq(1500, 1875, by=10)) +
+      # habillage
+      ylab("expéditions") +                       
+      xlab("années") +
+      theme_bw() +
+      ggtitle ("Distribution chronologique des expéditions de traite atlantique") +
+            annotate("text", x = 1880, y = 100, label="The Trans-Atlantic Slave Trade Database (2010) variable yearam", size = 4, angle = 90) 
+
+
+##  remplissage des bâtons/ dégradé proportionnel aux effectifs
+##  + assignation d'une bordure  aux bâtons.
+##  + Barres plus larges 
+
+library (ggplot2)
+chart_chronogg4  <- ggplot (n_voyages, aes(x=yearam, y=n, , width=2))  
+chart_chronogg4 +
+  geom_bar(stat="identity", aes(fill = n), colour="grey40") +
+  scale_fill_continuous(low="dodger blue", high="green2") +
+  scale_x_continuous(breaks=seq(1500, 1860, by=25)) +
+# habillage
+      ylab("expéditions") +                       
+      xlab("années") +
+      theme_bw() +
+      theme(legend.title=element_blank()) +
+      ggtitle ("Distribution chronologique des expéditions de traite atlantique") +
+            annotate("text", x = 1880, y = 100, label="The Trans-Atlantic Slave Trade Database (2010) variable yearam", size = 4, angle = 90)
+
+
+
+````
+
+
+réfécences
+
+http://yohann.feneche.free.fr/lissage_mm.php
+http://stackoverflow.com/questions/13840761/add-moving-average-plot-to-time-series-plot-in-r
+http://www.princeton.edu/~jswaters/site/Notes/Entries/2013/9/9_R__Plotting_time_series_data.html
+http://java.dzone.com/articles/r-ggplot---plotting-multiple
+https://danieljhocking.wordpress.com/2014/12/03/lags-and-moving-means-in-dplyr/
+
+```
+
+##  Creation d'un data.frame de moyenne mobile
+
+
+
+```{r eval=FALSE}
+library (dplyr)
+library (zoo)
+
+nvymobile <- 
+  voyages %>%
+  group_by(yearam)  %>% 
+  summarise(y = n()) %>%
+  mutate (moyennemobile=rollmean(x=y,5, align="right", fill=0 )) 
+utils :: View (nvymobile)
+
+````
+
+fill: moyenne d'anterieure donc par quoi remplacer les valerus non prises ne compte NA 0?
+
+
+http://stackoverflow.com/questions/23619855/constructing-moving-average-over-a-categorical-variable-in-r
+http://www.inside-r.org/packages/cran/zoo/docs/rollapply
+
+
+
+
+### {GoogleVis}
+
+
+```{r  eval = FALSE}
+library (googleVis)
+
+complete_n_voyages_rename <- complete_n_voyages %>%
+                      rename(voyages = n)
+
+gvis_chrono1 <- gvisLineChart(complete_n_voyages_rename, 
+                            options=list(
+                              legend="none",
+                              lineWidth=2, pointSize=0,
+                              title="Trans-Atlantic slave trade voyages (yearam variable)",
+                              vAxis="{title:''}",
+                              width=1500, height=600))
+plot (gvis_chrono1)
+
+
+gvis_chrono2 <- gvisColumnChart(complete_n_voyages2-rename,
+options=list(
+                              legend="none",
+                              lineWidth=2, pointSize=0,
+                              title="Trans-Atlantic slave trade voyages (yearam variable)",
+                              vAxis="{title:''}",
+                              width=1500, height=600))
+plot(gvis_chrono2)
+```
+
+# Périodisation de la traite
+
+Lorsque presque tous les individus possèdent des valeurs différentes, on peut procéder à un regroupement par classes des valeurs observées afin d'en faciliter la lecture, l'analyse et interprétation. Le découpage en classes d'une population selon un ou plusieurs critères est une opération appelée *discrétisation*.
+
+Cette transformation engendre une perte d'information. Par conséquent, le processus de partition en classes (définition des limites de classes, étendue des classes, nombre de classes, etc.), qui comporte nécessairement une part d'arbitraire, revêt une grande importance. (Sède-Marceau, 2010; Saly-Giocanty, 2005, p.31)
+Une classe est un intervalle de valeurs ue peut prendre le le caractère quantitatif étudié.
+L'amplitude d'une classe est la longueur de l'intervalle de valeurs. Les classes peuvent être d'amplitudes différentes. (math en poche 2nde)
+
+```{r  eval=FALSE}
+
+
+cut_chrono1 <- cut(voyages$yearam,
+          breaks=c(1500 ,1600 ,1800 ,1900))
+
+table (cut_chrono1)
+
+# Suppression de la notation scientifique (utilisation de l'argument dig.lab)
+
+cut_chrono2 <- cut(voyages$yearam,
+          breaks=c(1500 ,1600 ,1800 ,1900),
+          dig.lab = 4,
+          
+          right = FALSE)
+cut_chrono2
+
+# bornes exlues à droite
+table (cut_chrono1)
+
+
+```
+
+
+```{r  eval = FALSE}
+library (dplyr)
+
+cut_chrono3 <- voyages %>%
+               select (yearam, voyageid, shipname) %>%
+               mutate (periodes = cut(yearam, breaks = c(1500, 1789, 1807, 1866),
+               include.lowest = TRUE, # bornes semi-ouvertes exclues à droite
+               right = FALSE,  
+               dig.lab = 4))
+
+
+
+
+cut_chrono3 <- voyages %>%
+               select (yearam, voyageid, shipname) %>%
+mutate (periodes = cut(yearam, breaks = c(1500, 1789, 1807, 1866),
+                                                include.lowest = TRUE,
+                        right = FALSE,  
+                        dig.lab = 4)) %>%
+                        count (periodes)
+
+# bornes semi-ouvertes exclues à droite
+cut_chrono3
+```
+
+
+
+
