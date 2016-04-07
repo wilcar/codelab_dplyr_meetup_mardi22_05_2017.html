@@ -375,14 +375,9 @@ Cette transformation engendre une perte d'information et par conséquent, le pro
 
 Les classes ne se chevauchent jamais. La borne supérieure est généralement exclue de l'intervalle de classe. On dit alors que les classes s'expriment: "bornes exclues à droite" (Py, 2013; p. 30). 
 
-Le tableau ci-dessous résume les deux types d'intervalles 
-  
 
-L'intervalle noté: est noté dans R: est exclu:
------------------- ---------------- --------
-[a;b[              [a,b)            à droite 
-]a;b]              (a,b]            à gauche 
-
+* L'intervalle noté: [a;b[ est noté dans R [a,b) est exclu à droite  
+* L'intervalle noté: ]a;b] est noté dans R (a,b] est exclu à gauche
 
 
 ### R-Base
