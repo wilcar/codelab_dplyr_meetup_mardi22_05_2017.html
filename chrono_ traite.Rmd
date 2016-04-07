@@ -39,7 +39,7 @@ library (dplyr) # 0.4.3
 # An Implementation of the Grammar of Graphics
 library (ggplot2) # 2.1.0
 
-
+library (googleVis)
 ```
 
 ## Les données temporelles au sein de la TSTDb
@@ -347,9 +347,9 @@ plot (gvis_chrono1)
 
 ````
 
-```{r}
+```{r eval = FALSE}
 
-gvis_chrono2 <- gvisColumnChart(complete_n_voyages2-rename,
+gvis_chrono2 <- gvisColumnChart(complete_n_voyages_rename,
 options=list(
                               legend="none",
                               lineWidth=2, pointSize=0,
@@ -361,34 +361,49 @@ plot(gvis_chrono2)
 
 # Périodisation de la traite
 
-Lorsque presque tous les individus étudiés sont caractérisés par des valeurs différentes, on peut procéder à leur regroupement dans des intervales de valeurs appelés classes afin de faciliter la lecture, l'analyse et interprétation des données.  
+## Discrétisation 
+
+
+Lorsque presque tous les individus étudiés sont caractérisés par des valeurs différentes, on peut procéder à leur regroupement dans des intervales de valeurs appelés *classes* afin de faciliter la lecture, l'analyse et interprétation des données.  
+
 Le découpage en classes d'une population est une opération appelée *discrétisation*.
-Cette transformation engendre une perte d'information. Par conséquent, le processus de partition en classes (définition des limites de classes, étendue des classes, nombre de classes, etc.), qui comporte nécessairement une part d'arbitraire, revêt une grande importance. (Sède-Marceau, 2010; Saly-Giocanty, 2005, p.31)
+Cette transformation engendre une perte d'information et par conséquent, le processus de partition en classes revêt une grande importance. (Sède-Marceau, 2010; Saly-Giocanty, 2005, p.31)
+
 * Une classe est un intervalle de valeurs ue peut prendre le le caractère quantitatif étudié.  
 * L'amplitude d'une classe est la longueur de l'intervalle de valeurs. Les classes peuvent être d'amplitudes différentes.  
 
+
+Les classes ne se chevauchent jamais. La borne supérieure est généralement exclue de l'intervalle de classe. On dit alors que les classes s'expriment: "bornes exclues à droite" (Py, 2013; p. 30). 
+
+Le tableau ci-dessous résume les deux types d'intervalles 
+
+
+L'intervalle noté: | est l'ensemble des réels x tels que: | est noté dans R: | exclu:
+-----------------  | ------------------------------------ | ------ ----------|-------
+[a;b[  |a\le~x~<b|[a,b) | à droite
+]a;b]  |a<~x~\le~b|(a,b]| à gauche
+
+
+### R-Base
+
+
 ```{r  eval=FALSE}
-
-
-cut_chrono1 <- cut(voyages$yearam,
-          breaks=c(1500 ,1600 ,1800 ,1900))
-
-table (cut_chrono1)
 
 # Suppression de la notation scientifique (utilisation de l'argument dig.lab)
 
-cut_chrono2 <- cut(voyages$yearam,
+cut_chrono1 <- cut(voyages$yearam,
           breaks=c(1500 ,1600 ,1800 ,1900),
           dig.lab = 4,
-          
           right = FALSE)
-cut_chrono2
+cut_chrono1
 
-# bornes exlues à droite
+
+## bornes exlues à droite
 table (cut_chrono1)
 
 
 ```
+
 
 
 ```{r  eval = FALSE}
