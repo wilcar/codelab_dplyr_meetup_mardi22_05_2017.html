@@ -376,12 +376,13 @@ Cette transformation engendre une perte d'information et par conséquent, le pro
 Les classes ne se chevauchent jamais. La borne supérieure est généralement exclue de l'intervalle de classe. On dit alors que les classes s'expriment: "bornes exclues à droite" (Py, 2013; p. 30). 
 
 Le tableau ci-dessous résume les deux types d'intervalles 
+  
 
+L'intervalle noté: est noté dans R: est exclu:
+------------------ ---------------- --------
+[a;b[              [a,b)            à droite 
+]a;b]              (a,b]            à gauche 
 
-L'intervalle noté: | est l'ensemble des réels x tels que: | est noté dans R: | exclu:
------------------  | ------------------------------------ | ------ ----------|-------
-[a;b[  |a\le~x~<b|[a,b) | à droite
-]a;b]  |a<~x~\le~b|(a,b]| à gauche
 
 
 ### R-Base
@@ -389,46 +390,57 @@ L'intervalle noté: | est l'ensemble des réels x tels que: | est noté dans R: 
 
 ```{r  eval=FALSE}
 
-# Suppression de la notation scientifique (utilisation de l'argument dig.lab)
+# bornes exlues à gauche
 
 cut_chrono1 <- cut(voyages$yearam,
-          breaks=c(1500 ,1600 ,1800 ,1900),
-          dig.lab = 4,
-          right = FALSE)
-cut_chrono1
+                   breaks=c(1500 ,1600, 1700 ,1800 ,1900),
+                   dig.lab = 4)      # Suppression de la notation scientifique 
+                  
 
 
-## bornes exlues à droite
+# bornes exlues à droite
+
+cut_chrono1 <- cut(voyages$yearam,
+                   breaks=c(1500 ,1600, 1700 ,1800 ,1900),
+                   dig.lab = 4,      # Suppression de la notation scientifique 
+                  right = FALSE) 
+
+
+# tableau statistique
+
 table (cut_chrono1)
 
+
+# Conversion en tableau de données 
+
+cut_chrono1 <- as.data.frame(cut_chrono1)
 
 ```
 
 
+### Package dplyr
 
 ```{r  eval = FALSE}
-library (dplyr)
 
-cut_chrono3 <- voyages %>%
+# bornes exlues à gauche
+
+cut_chrono2 <- voyages %>%
                select (yearam, voyageid, shipname) %>%
                mutate (periodes = cut(yearam, breaks = c(1500, 1789, 1807, 1866),
-               include.lowest = TRUE, # bornes semi-ouvertes exclues à droite
-               right = FALSE,  
-               dig.lab = 4))
+                       dig.lab = 4)) %>%
+               count (periodes)
 
 
+# bornes exlues à droite
 
-
-cut_chrono3 <- voyages %>%
+cut_chrono2 <- voyages %>%
                select (yearam, voyageid, shipname) %>%
-mutate (periodes = cut(yearam, breaks = c(1500, 1789, 1807, 1866),
-                                                include.lowest = TRUE,
-                        right = FALSE,  
-                        dig.lab = 4)) %>%
-                        count (periodes)
+               mutate (periodes = cut(yearam, breaks = c(1500, 1789, 1807, 1866),
+                       include.lowest = TRUE,
+                       right = FALSE,  
+                       dig.lab = 4)) %>%
+               count (periodes)
 
-# bornes semi-ouvertes exclues à droite
-cut_chrono3
 ```
 
 
