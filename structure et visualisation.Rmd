@@ -158,76 +158,6 @@ head(sort(unique(voyages$yearam)))
 ```
 
 
-### Les Valeurs manquantes
-
-#### Désignation
-
-Dans **R**, les valeurs manquantes sont notées *NA* (not available).
-
-
-#### Remarque
-()
-Par défaut, la plupart des opérations de base somme, moyenne, minimum, maximum, etc.) n'acceptent pas les variables 
-contenant des valeurs manquantes.
-
-
-#### Identification des données manquantes
-
-La fonction *summary* permet entre autre d'indiquer les effectifs des valeurs manquantes pour chaque variable du tableau de données.
-
-````{r eval=FALSE}
-
-summary (voyages)
-
-````
-
-Effectifs et fréquences des valeurs manquantes *colonne par colonne*.
-
-```{r eval = FALSE}
-
-# fonction colSums à la constante logique is.na; 
-# stockage des données manquantes dans l'objet missing_n
-
-missing_n<-colSums(is.na(voyages))
-
-missing_n # affichage dans la console
-
-````
-
-   voyageid    shipname    natinimp    placcons      yrcons     placreg       yrreg  
-          0        1594        1529       26058       28757       27718       30431      
-          
-* *voyageid* ne contient pas de données manquantes.  
-* *shipname* contient 1594 données manquantes. 
-
-
-```{r eval = FALSE}
-
-# fonction colMeans associée à la constante logique is.na; 
-# résultats exprimés en pourcentages, arrondis au dixième:
-# stockage des données manquantes dans l'objet missing_freq.
-
-missing_freq<-round (100*colMeans(is.na(voyages)), 1)
-
-missing_freq # affichage dans la console
-
-```
-
-voyageid    shipname    natinimp    placcons      yrcons     placreg       yrreg         
-    0.0         4.6         4.4        74.6        82.3        79.3        87.1        
-
-* *shipname*: contient 4,5% de données manquantes. 
-
-```{r eval = FALSE}
-
-# total des données manquantes
-
-sum(missing_n)
-
-```
-
-
-
 
 
 
@@ -280,4 +210,104 @@ voyages$guns
 
 
 
+
+
+# Les Valeurs manquantes
+
+## Désignation
+
+Dans **R**, les valeurs manquantes sont notées *NA* (not available).
+
+
+## Remarque
+()
+Par défaut, la plupart des opérations de base somme, moyenne, minimum, maximum, etc.) n'acceptent pas les variables 
+contenant des valeurs manquantes.
+
+
+## Identification des données manquantes colonne par colonne
+
+La fonction *summary* permet entre autre d'indiquer les effectifs des valeurs manquantes pour chaque variable du tableau de données.
+
+````{r eval=FALSE}
+
+summary (voyages)
+
+````
+
+Effectifs et fréquences des valeurs manquantes
+
+```{r eval = FALSE}
+
+# fonction colSums à la constante logique is.na; 
+# stockage des données manquantes dans l'objet missing_n
+
+missing_n<-colSums(is.na(voyages))
+
+missing_n # affichage dans la console
+
+````
+
+   voyageid    shipname    natinimp    placcons      yrcons     placreg       yrreg  
+          0        1594        1529       26058       28757       27718       30431      
+          
+* *voyageid* ne contient pas de données manquantes.  
+* *shipname* contient 1594 données manquantes. 
+
+
+```{r eval = FALSE}
+
+# fonction colMeans associée à la constante logique is.na; 
+# résultats exprimés en pourcentages, arrondis au dixième:
+# stockage des données manquantes dans l'objet missing_freq.
+
+missing_freq<-round (100*colMeans(is.na(voyages)), 1)
+
+missing_freq # affichage dans la console
+
+```
+
+voyageid    shipname    natinimp    placcons      yrcons     placreg       yrreg         
+    0.0         4.6         4.4        74.6        82.3        79.3        87.1        
+
+* *shipname*: contient 4,5% de données manquantes. 
+
+```{r eval = FALSE}
+
+# total des données manquantes
+
+sum(missing_n)
+
+```
+
+
+## Données manquantes en fonction des années
+
+## Identification des données manquantes en fonction des années
+```{r}
+
+library(dplyr)
+
+# Frequences des données NA en pourcentage de chaque colonne
+missing_years <- voyages %>%
+                  select (1:87) %>%
+                  group_by (yearam) %>% 
+                  summarise_each(funs(round(100*mean(is.na(.)) ,1)))
+
+# Effecitfs  des données NA en pourcentage de chaque colonne
+missing_years2 <- voyages %>%
+                  select (1:87) %>%
+                  group_by (yearam) %>% 
+                  summarise_each(funs(sum(is.na(.)))) 
+
+```
+
+## ## Identification des données manquantes en fonction des années: exemple de natinimp
+
+```{r}
+
+missing_years_natinimp <- voyages %>%
+                  count (yearam, complete.cases(natinimp)) 
+missing_years_natinimp
+```
 
