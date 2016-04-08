@@ -1,0 +1,283 @@
+---
+title: "structure et visualisation de la TASTDb"
+author: "Wilfrid Cariou"
+date: "8 avril 2016"
+output: html_document
+---
+
+
+
+
+
+
+
+
+
+
+
+
+# Préalables
+
+## Importation des données
+
+```{r}
+
+voyages<-read.table("tastdb_105var.csv",
+                    header=TRUE, sep=",",
+                    na.strings="",
+                    quote = "\"",
+                    dec=".") 
+```
+
+## Appel des packages
+
+```{r eval = FALSE}
+
+# A Grammar of Data Manipulation
+library (dplyr) # 0.4.3 
+
+# Simple, Consistent Wrappers for Common String Operations
+library (stringr)# 1.0.0. 
+
+```
+
+
+## Références
+
+### Rbase
+
+* http://blog.datacamp.com/15-easy-solutions-data-frame-problems-r/  
+* http://personal.colby.edu/personal/m/mgimond/RIntro/04_Manipulating_data_tables.html#data-table-description  
+
+### Package dplyr
+
+* https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html  
+* https://www.kaggle.com/justmarkham/introducing-kaggle-scripts/introduction-to-dplyr-part-1
+* https://www.kaggle.com/justmarkham/introducing-kaggle-scripts/introduction-to-dplyr-part-2/notebook 
+* Data wrangling, exploration, and analysis with R, UBC STAT 545A and 547Mdplyr, functions for a single dataset https://stat545-ubc.github.io/block010_dplyr-end-single-table.html
+
+
+### Données manquantes
+
+* http://www.statmethods.net/input/missingdata.html
+
+
+# Composition du tableau de données *voyages*
+
+Un tableau de données ou *data.frame* constitue une structure de données fondamentale de **R**. Il se compose d'une collection d'objets de différents types (*numeric, factor, character*) de longueurs similaires accessibles par leur indice de position (R: A Language and Environment for Statistical Computing - Reference index, p 159).
+
+
+## Dimensions du tableau
+
+Un tableau de données est un tableau à deux dimensions. La fonction *dim(){base}*  permet d'en connaître le nombre de lignes et de colonnes (Becker, Chambers, Wilks, 1988).
+
+```{r eval = FALSE}
+
+dim (voyages)
+
+```
+
+[1] 34946   105
+
+* Le tableau est constitué de 105 colonnes et 34946 lignes.
+
+## Désignation et indice de position des colonnes
+
+* La fonction *colnames {base}* est utilisée pour obtenir un affichage séquentiel des noms de colonnes. Chaque colonne est caractérisée par un *indice* de position au sein du tableau. l'indice du premier élément de chaque ligne est signalé dans la marge gauche de la console.   
+* La fonction *wich {base}* est une fonction primitive de **R** qui permet d'identifier l'indice de position d'une colonne en fonction de son nom (Desgraupes, 2013, p10).  
+* RStudio affiche également de manière interactive la position de chaque colonne du tableau de données.  
+
+```{r eval = FALSE}
+
+colnames (voyages)
+
+````
+
+  [1] "voyageid"    "shipname"    "natinimp"    "placcons"    "yrcons"      "placreg"     "yrreg"       "rig"        
+  [9] "tonnage"     "tonmod"      "guns"        "ownera"      "ownerb"      "ownerc"      "ownerd"      "ownere"     
+ [17] "ownerf"      "ownerg"      "ownerh"      "owneri"      "ownerj"      "ownerk"      "ownerl"      "ownerm"     
+ [25] "ownern"      "ownero"      "ownerp"      "fate"        "fate2"       "fate3"       "fate4"       "resistance"
+
+* La colonne *guns* se situe à la 11e position du tableau de données *voyages*.
+
+```{r eval = FALSE}
+
+which(colnames(voyages)=="slaximp")
+
+```
+
+* La colonne *slaximp* se situe à la 73e position du tableau de données *voyages*.
+
+
+## Typage des données
+
+La fonction str{base} produit un résumé de la structure du tableau de données. 
+
+```{r eval = FALSE}
+
+str(voyages)
+
+```
+
+ $ voyageid   : **int**  1 2 3 4 5 6 7 8 9 10 ...  
+ $ shipname   : **Factor** w/ 9105 levels "'s-Graveland",..: 6303 8461 6274 893 774 8837 2674 8771 1591 1485 ...  
+ $ natinimp   : Factor w/ 8 levels "Denmark / Baltic",..: 6 6 6 6 6 6 6 6 6 6 ...  
+ $ placcons   : Factor w/ 238 levels "Airth","Amesbury",..: NA NA NA NA NA NA NA NA NA NA ...  
+
+* *voyageid*: objet de type **integer**  
+* *shipname*: objet de type **Factor**  
+
+
+### Les facteurs
+
+Un  *facteur (factor)* constitue un objet particulier de **R** employé pour stocker les modalités d'un caractère qualitatif (ou catégoriel).   
+Un caractère est dit *qualitatif* lorsque son observation ne peut être traduite par une mesure. Il se décline selon différents états dénombrables appelés *modalités* ou  *levels* dans **R**.  
+L'inspection des modalités d'un caractère qualitatif s'effectue à l'aide de la fonction *levels ou unique {base}*. 
+
+````{r eval=FALSE}
+
+# ports de départ des expéditions de traite 
+levels (voyages$ptdepimp) # classement des modalités par ordre alphabétique
+unique (voyages$ptdepimp) # absence de classement
+
+# classement par ordre alphabétique (combinaison avec la fonction sort)
+sort (unique (voyages$ptdepimp))
+
+````
+
+
+### Les vecteurs numériques 
+
+Les vecteurs numériques *Integer* ou *numeric* sont des objets utilisés pour stocker les valeurs d'une variable quantitative. 
+
+```{r eval = FALSE}
+
+# Les premières valeurs  de la variable yearam
+head(sort(unique(voyages$yearam)))
+
+```
+
+
+### Les Valeurs manquantes
+
+#### Désignation
+
+Dans **R**, les valeurs manquantes sont notées *NA* (not available).
+
+
+#### Remarque
+()
+Par défaut, la plupart des opérations de base somme, moyenne, minimum, maximum, etc.) n'acceptent pas les variables 
+contenant des valeurs manquantes.
+
+
+#### Identification des données manquantes
+
+La fonction *summary* permet entre autre d'indiquer les effectifs des valeurs manquantes pour chaque variable du tableau de données.
+
+````{r eval=FALSE}
+
+summary (voyages)
+
+````
+
+Effectifs et fréquences des valeurs manquantes *colonne par colonne*.
+
+```{r eval = FALSE}
+
+# fonction colSums à la constante logique is.na; 
+# stockage des données manquantes dans l'objet missing_n
+
+missing_n<-colSums(is.na(voyages))
+
+missing_n # affichage dans la console
+
+````
+
+   voyageid    shipname    natinimp    placcons      yrcons     placreg       yrreg  
+          0        1594        1529       26058       28757       27718       30431      
+          
+* *voyageid* ne contient pas de données manquantes.  
+* *shipname* contient 1594 données manquantes. 
+
+
+```{r eval = FALSE}
+
+# fonction colMeans associée à la constante logique is.na; 
+# résultats exprimés en pourcentages, arrondis au dixième:
+# stockage des données manquantes dans l'objet missing_freq.
+
+missing_freq<-round (100*colMeans(is.na(voyages)), 1)
+
+missing_freq # affichage dans la console
+
+```
+
+voyageid    shipname    natinimp    placcons      yrcons     placreg       yrreg         
+    0.0         4.6         4.4        74.6        82.3        79.3        87.1        
+
+* *shipname*: contient 4,5% de données manquantes. 
+
+```{r eval = FALSE}
+
+# total des données manquantes
+
+sum(missing_n)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+# Visualisation des données du tableau *voyages*
+## Visualisation du tableau de données au moyen de la console
+
+```{r eval = FALSE}
+
+print (voyages) # nombre de lignes limité à 95 lignes
+head (voyages) # 6 lignes de tête
+tail (voyages) # 6 lignes de fin
+
+# argument supplémentaire n= nb de lignes
+head (voyages, n=15) # 15 lignes de tête
+
+```
+
+
+## Visualisation du tableau de données au moyen de RStudio
+
+Le volet *Environment*, qui liste les objets en mémoire, offre la possibilité d'activer (par un simple clic) l'affichage des tableaux de données dans des onglets dédiés.
+
+
+![Rstudio] (https://github.com/wilfridcariou/The-Trans-Atlantic-Slave-Trade-Db/blob/master/images/rstudio_dfviz.jpg)
+
+
+## Visualisation de la série statistique d'une variable
+
+
+Une série statistique est la suite des observations d'une (ou plusieurs) variable(s), relevés sur les individus d'une population.  
+La visualisation d'une série statistique se réalise par la combinaison *nom du tableau*, opérateur *$*, *nom de la variable*.
+
+```{r eval=FALSE}
+
+voyages$shipname
+
+voyages$guns
+
+```
+
+
+
+
+
+
+
+
+
