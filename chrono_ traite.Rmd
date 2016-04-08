@@ -12,8 +12,6 @@ output:
 ---
 
 
-********************************************************************************
-
 Les séries chronologiques chroniques ou encore séries temporelles sont des distributions statistiques qui décrivent de manière chiffrée des phénomènes repérés dans le temps. (Py, 2013).
 
 # Préalables
@@ -382,44 +380,73 @@ Les classes ne se chevauchent jamais. La borne supérieure est généralement ex
 
 ### R-Base
 
+#### Discrétisation empirique
 
 ```{r  eval=FALSE}
 
 # bornes exlues à gauche
 
-cut_chrono1 <- cut(voyages$yearam,
+cut_chrono <- cut(voyages$yearam,
                    breaks=c(1500 ,1600, 1700 ,1800 ,1900),
                    dig.lab = 4)      # Suppression de la notation scientifique 
                   
 
-
 # bornes exlues à droite
 
-cut_chrono1 <- cut(voyages$yearam,
+cut_chrono <- cut(voyages$yearam,
                    breaks=c(1500 ,1600, 1700 ,1800 ,1900),
                    dig.lab = 4,      # Suppression de la notation scientifique 
                   right = FALSE) 
-
+                  
 
 # tableau statistique
 
-table (cut_chrono1)
+table (cut_chrono)
 
 
 # Conversion en tableau de données 
 
-cut_chrono1 <- as.data.frame(cut_chrono1)
+cut_chrono <- as.data.frame(cut_chrono1)
 
 ```
 
+#### Discrétisation selon des intervalles égaux
+
+```{r}
+
+# Dermination manuel du nombre de classes 
+
+cut_chrono <- cut(voyages$yearam,
+                  breaks = 4,
+                  dig.lab = 4)   
+          
+# Détermination des bornes min / max et de l'amplitude des classes
+
+cut_chrono <- cut(nantes1$voy1imp,
+                  breaks= seq(0,1200, by =100),
+                  dig.lab = 4)
+
+# tableau statistique
+
+table (cut_chrono)
+
+
+# Conversion en tableau de données 
+
+cut_chrono <- as.data.frame(cut_chrono1)                  
+```
+
+
 
 ### Package dplyr
+
+#### Discrétisation empirique
 
 ```{r  eval = FALSE}
 
 # bornes exlues à gauche
 
-cut_chrono2 <- voyages %>%
+cut_chrono <- voyages %>%
                select (yearam, voyageid, shipname) %>%
                mutate (periodes = cut(yearam, breaks = c(1500, 1789, 1807, 1866),
                        dig.lab = 4)) %>%
@@ -428,7 +455,7 @@ cut_chrono2 <- voyages %>%
 
 # bornes exlues à droite
 
-cut_chrono2 <- voyages %>%
+cut_chrono <- voyages %>%
                select (yearam, voyageid, shipname) %>%
                mutate (periodes = cut(yearam, breaks = c(1500, 1789, 1807, 1866),
                        include.lowest = TRUE,
@@ -436,8 +463,29 @@ cut_chrono2 <- voyages %>%
                        dig.lab = 4)) %>%
                count (periodes)
 
-```
+````
 
 
+#### Discrétisation selon des intervalles égaux
 
+```{r}
+# Expéditions
+cut_chrono <- voyages %>%
+               select (yearam, slaximp, shipname) %>%
+               mutate (periodes = cut(yearam, breaks = seq(1500,1600, by =50),
+               include.lowest = TRUE,
+               right = FALSE,  
+               dig.lab = 4))%>%
+               count (periodes)
+
+# esclaves embarqués
+cut_chrono <- voyages %>%
+               select (yearam, slaximp) %>%
+               mutate (periodes = cut(yearam, breaks = seq(1500,1900, by =50),
+               include.lowest = TRUE,
+               right = FALSE,
+               dig.lab = 4)) %>%
+               filter (complete.cases(slaximp))%>%
+               group_by (periodes) %>%
+               summarise (esclaves = sum(slaximp))
 
