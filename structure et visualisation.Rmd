@@ -283,7 +283,7 @@ missing_years <- voyages %>%
                   group_by (yearam) %>% 
                   summarise_each(funs(round(100*mean(is.na(.)) ,1)))
 
-# Effecitfs  des données NA en pourcentage de chaque colonne
+# Effectifs  des données NA en pourcentage de chaque colonne
 missing_years2 <- voyages %>%
                   select (1:87) %>%
                   group_by (yearam) %>% 
@@ -291,30 +291,39 @@ missing_years2 <- voyages %>%
 
 ```
 
-## ## Identification des données manquantes en fonction des années: exemple de natinimp
+##Identification des données manquantes en fonction des années: exemple de natinimp
 
+### Préparation des données
 ```{r}
 
+# proposition 1
 missing_years_natinimp <- voyages %>%
-                  count (yearam, complete.cases(natinimp)) %>%
-missing_years_natinimp
+                  count (yearam, natinimp =complete.cases(natinimp))
+                   
+
+missing_years_natinimp$natinimp <- factor(missing_years_natinimp$natinimp, labels=c("non-identifié", "identifié"))
+
+# proposition 2
+
+missing_years_natinimp2 <- voyages %>%
+                  count (yearam, pavillon = complete.cases(natinimp)) %>%
+                  mutate(pavillon = c("non-identifié","identifié")[pavillon + 1])
 
 
-names(missing_years_natinimp)[2] = "natinimp"  
 
 ```
 
+http://stackoverflow.com/questions/30943167/how-can-i-replace-true-and-false-values-with-1-and-0-when-exporting-data-in-r
 
-diagrammes en bâtons empilés (stacked)
+#### Diagrammes en bâtons empilés (stacked)
  
 ```{r eval = FALSE}
 
 library(ggplot2)
 
-flags_na_natinimp_stacked  <- ggplot (missing_years_natinimp, aes(x=yearam, y=n, width = 0.5))  
+flags_na_natinimp_stacked  <- ggplot (missing_years_natinimp2, aes(x=yearam, y=n, width = 0.5))  
 flags_na_natinimp_stacked +
-  geom_bar(stat="identity", aes(fill = (natinimp))) +
+  geom_bar(stat="identity", aes(fill = (pavillon))) +
   scale_x_continuous(breaks=seq(1500, 1860, by=25)) +
   theme_bw() +
-  ggtitle ("rattachements juridiques des navires négriers inconnu") 
-
+  ggtitle ("Part des pavillons de navires négriers inconnus (caractère natinimp)") 
