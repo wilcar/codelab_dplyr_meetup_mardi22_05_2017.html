@@ -307,7 +307,34 @@ missing_years2 <- voyages %>%
 ```{r}
 
 missing_years_natinimp <- voyages %>%
-                  count (yearam, complete.cases(natinimp)) 
+                  count (yearam, complete.cases(natinimp)) %>%
 missing_years_natinimp
 ```
+
+
+## diagrammes en bâtons empilés (stacked)
+ 
+ A comp^létéer
+
+```{r eval = FALSE}
+
+library(ggplot2)
+
+flags_na_natinimp_stacked  <- ggplot (missing_years_natinimp, aes(x=yearam, y=n))  
+flags_na_natinimp_stacked+
+  geom_bar(stat="identity", aes(fill = complete.cases(natinimp), colour = natinimp)) +
+  theme_bw() +
+  ggtitle ("Distribution chronologique des expéditions de traite atlantique") 
+
+# version avec gestion des étiquettes
+# source:  http://stackoverflow.com/questions/27473772/split-labels-over-2-lines-in-ggplot-with-factors
+
+flags_years_stacked  <- ggplot (flags_years_cut, aes(x=periodes, y=n))  
+flags_years_stacked +
+  scale_x_discrete(labels=function(x) sub(",",",\n",x,fixed=TRUE)) +
+  geom_bar(stat="identity", aes(fill = natinimp, colour = natinimp)) +
+  theme_bw() +
+  ggtitle ("Distribution chronologique des expéditions de traite atlantique")
+
+
 
