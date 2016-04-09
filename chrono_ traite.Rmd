@@ -40,10 +40,19 @@ library (ggplot2) # 2.1.0
 library (googleVis)
 ```
 
-## Les données temporelles au sein de la TSTDb
-
-variable yearam
+## Les données  exploitées 
+variable yearam: Year of arrival at port of disembarkation (imputed) (spss codebook)  
 http://www.slavevoyages.org/voyage/understanding-db/methodology-7
+
+variable slaximp: Imputed total slaves embarked (spss codebook)  
+http://www.slavevoyages.org/voyage/understanding-db/methodology-15
+
+```{r eval = FALSE}
+# données manquantes
+
+sum(is.na(voyages$yearam)) 
+sum(is.na(voyages$slaximp)) 
+```
 
 
 ## Réagencement du tableau de données *voyages* en fonction de la colonne yearam
@@ -275,7 +284,7 @@ ggplot_barplot_chrono1 +
 ##  + assignation d'une bordure  aux bâtons.
 ##  + Barres plus larges 
 
-ggplot_barplot_chrono2 <- ggplot (n_voyages, aes(x=yearam, y=n, , width=2))  
+ggplot_barplot_chrono2 <- ggplot (n_voyages, aes(x=yearam, y=n, width=2))  
 ggplot_barplot_chrono2 +
   geom_bar(stat="identity", aes(fill = n), colour="grey40") +
   scale_fill_continuous() +
