@@ -481,16 +481,16 @@ cut_chrono <- voyages %>%
 cut_chrono <- voyages %>%
                select (yearam, slaximp, shipname) %>%
                mutate (periodes = cut(yearam, breaks = seq(1500,1900, by =50),
-               right = FALSE,  
-               dig.lab = 4))%>%
+                       right = FALSE,  
+                       dig.lab = 4))%>%
                count (periodes)
 
 # esclaves embarqués
 cut_chrono_slaves <- voyages %>%
                select (yearam, slaximp) %>%
                mutate (periodes = cut(yearam, breaks = seq(1500,1900, by =50),
-               right = FALSE,
-               dig.lab = 4)) %>%
+                       right = FALSE,
+                       dig.lab = 4)) %>%
                filter (complete.cases(slaximp))%>%
                group_by (periodes) %>%
                summarise (slaves = sum(slaximp))
