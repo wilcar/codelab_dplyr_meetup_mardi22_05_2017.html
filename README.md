@@ -11,7 +11,7 @@ Voyages Database. 2009. Voyages: The Trans-Atlantic Slave Trade Database. http:/
 Domaine publique 	
 Voyages Database. 2009. Voyages: The Trans-Atlantic Slave Trade Database. http://www.slavevoyages.org (Accès 1er janvier 2015).
 
-### Données subsituées (Imputed data)  
+### Données substituées (Imputed data)  
 (indiquées par un astérisque *)  
 Licence Creative Commons Attribution-Noncommercial 3.0 United States License.
 
