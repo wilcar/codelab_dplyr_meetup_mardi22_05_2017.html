@@ -25,6 +25,5 @@ Activités: https://cdn.rawgit.com/wilcar/The-Trans-Atlantic-Slave-Trade-Db/61f0
 Fichier .zip (à decompresser) contenant un fichier rproj. ainsi que les données au format csv. https://github.com/wilcar/The-Trans-Atlantic-Slave-Trade-Db/blob/master/2017_tastdb_meetup.zip
 
 ## Fichiers
-* TASTDb_explor_ manip.Rmd: Exploration et manipulation du tableau de données *Voyages*
-
+Fichiers au format csv. Encodage latin ou utf8
 
