@@ -18,7 +18,7 @@ Licence Creative Commons Attribution-Noncommercial 3.0 United States License.
 ## Fichiers
 Fichiers au format csv. Encodage latin1 ou utf8
 
-## Meetup R Nantes, Nantes, le 22 mai 2017,The links.
+## Meetup R Nantes, Nantes, The links, le 22 mai 2017.
 
 Diaporama: (ouvrir de préférence avec Chrome)   
 https://cdn.rawgit.com/wilcar/The-Trans-Atlantic-Slave-Trade-Db/5feb0c72/meetup_mardi22_05_2017.html
