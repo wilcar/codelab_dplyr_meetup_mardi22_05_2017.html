@@ -15,6 +15,11 @@ Voyages Database. 2009. Voyages: The Trans-Atlantic Slave Trade Database. http:/
 (indiquées par un astérisque *)  
 Licence Creative Commons Attribution-Noncommercial 3.0 United States License.
 
+## Meetup du 22 mai 2017
+(ouvrir avec Chrome)
+https://cdn.rawgit.com/wilcar/The-Trans-Atlantic-Slave-Trade-Db/5feb0c72/meetup_mardi22_05_2017.html
 
 ## Fichiers
 * TASTDb_explor_ manip.Rmd: Exploration et manipulation du tableau de données *Voyages*
+
+
